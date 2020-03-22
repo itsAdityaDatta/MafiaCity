@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mafia City</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="favicon.ico">
+        <link href="https://fonts.googleapis.com/css?family=Abel|Bellota+Text&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <div class='header'>Mafia City</div>
+        <div class='container'>
+            <div class='messagesDiv'>
+                <ul id='messages'>
+                </ul>
+            </div>
+        </div>
+        <div class="divider
+        "></div>
+        <div class='container2'>
+            <ul id='members'>
+                <li>Gang Members Online:</li>
+            </ul>
+        </div>
+        
+        <form id='form1'>
+            <div class='blocks'>
+                <div class='block1'> <input id='inp1' autocomplete="off" spellcheck="false" required placeholder="Type here"></input> </div>
+                <div class='block2'> <button type='submit' id='btn1'>send</button> </div>
+            </div>
+        </form>
+
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>   
+        document.addEventListener("DOMContentLoaded", function(event) {
+            let socket = io();
+            let form = document.getElementById("form1");
+            form.addEventListener('submit', handleForm);
+            function handleForm(event){ 
+                event.preventDefault(); 
+                let msg = document.getElementById('inp1').value;
+                socket.emit('chat message', msg);
+                document.getElementById('inp1').value = '';
+                return false;
+            }
+            socket.on('chat message2', function(msg){
+                var node = document.createElement("li");
+                var textnode = document.createTextNode(msg);
+                node.appendChild(textnode);
+                document.getElementById("messages").appendChild(node);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+            socket.on('msgFromServer', function(msg){
+                var node = document.createElement("li");
+                var textnode = document.createTextNode(msg);
+                node.appendChild(textnode);
+                document.getElementById("messages").appendChild(node);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        });
+            
+        </script>
+
+        
+    </body>
+</html>
