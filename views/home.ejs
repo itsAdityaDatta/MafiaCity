@@ -8,7 +8,42 @@
         <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 
     </head>
+
     <body>
+		<div class="container">
+			<header class="header">
+				<!-- <div class="image">
+					<img src="img/logo3.png" alt="Logo" class="logo" /> //NOT WORKING
+				</div> -->
+				<div class="text">Mafia-City</div>
+            </header>
+
+            <div class="content">
+                <div class="chat_box">
+                    <div class='messagesDiv'>
+                        <ul id='messages'></ul>
+                    </div>
+                </div>
+                <div class="result_box">
+                     <div class="result_text">
+                        <ul id='members'>
+                            <li>Gang Members Online:</li>
+                        </ul>
+                     </div>  
+                </div>
+            </div>
+                    
+                <form action="#" id="form1">
+                    <div class="footer">
+                    <div class="block1"> <input id='inp1' autocomplete="off" spellcheck="false" required placeholder="Type here"></input></div>
+                    <div class="block2"> <button type='submit' id='btn1'>send</button></div></div>
+                    </div>
+                </form>
+            
+
+		</div>
+
+   <!--  <body>
         <div class='header'>Mafia City</div>
         <div class='container'>
             <div class='messagesDiv'>
@@ -31,7 +66,7 @@
             </div>
         </form>
 
-
+ -->
         <script src="/socket.io/socket.io.js"></script>
         <script>   
         document.addEventListener("DOMContentLoaded", function(event) {
