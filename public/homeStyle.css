@@ -1,0 +1,132 @@
+html{
+    overflow: hidden;
+    font-family: 'Abel';
+    font-size: 21px;
+}
+
+body{
+    background-color: #1f1f1f;
+    margin: 0;
+}
+
+.header{    
+    background-color: #1b262c;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    font-size: 66px;
+    font-family: 'Economica', sans-serif;
+    width: 100%;
+    position: fixed;
+    border-bottom: 2px solid #bbe1fa;
+    text-align: center;
+    z-index: 100;
+    cursor: default;
+}
+
+.container{
+    width: 100%;
+}
+
+.subC1{
+    width: 40%;
+    height: 100%;
+    margin-top: 90px;
+    padding-left: 15px;
+    padding-right: 15px;
+    float: left;
+    /* display: inline-block; */
+    color: white;
+}
+.divider{
+    border-left: 3px solid #bbe1fa;
+    height: 8960px;
+    position: fixed;
+    left: 50%;
+    margin-left: -3px;
+}
+.subC2{
+    width: 40%;
+    height: 100%;
+    position: fixed;
+    left: 50%;
+    margin-top: 90px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+}
+
+.joinRoom{
+    margin-top: 50px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.title{
+    font-size: 40px;
+    font-family: 'Economica', sans-serif;
+}
+
+input{
+    width: 100%;
+    font-family: 'Abel';
+    font-size: 18px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.createRoom{
+    margin-top: 50px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button{
+    width: 35%;
+    margin-top: 10px;
+    font-family: 'Abel';
+    font-size: 18px;
+    color: white;
+    background-color: #1b262c;
+    border: 2px solid #bbe1fa;
+    padding: 5px
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #28424d;
+}
+
+.footer{
+    background-color: #1b262c;
+    font-size: 14px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    border-top: 2px solid #bbe1fa;
+    color: white;
+    padding-left: 15px;
+    /* text-align: center; */
+}
+
+#overlay{
+    background-color: #1b262c;
+    height: 5000px;
+    width: 5000px;
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+}
+
+#joinCurRoom{
+    float: right;
+    width: 50%;
+    position: fixed;
+    left: 50%;
+    bottom:35px;
+    border: none;
+    border-top: 2px solid #bbe1fa;
+}

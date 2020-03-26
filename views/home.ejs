@@ -2,67 +2,43 @@
 <html>
     <head>
         <title>Mafia City</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="homeStyle.css">
         <link rel="icon" href="favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Abel|Bellota+Text&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css?family=Economica|Lobster+Two&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class='header'>Mafia City</div>
+        <div class='header'>Mafia City</div>            
+
         <div class='container'>
-            <div class='messagesDiv'>
-                <ul id='messages'>
-                </ul>
+            <div class='subC1'>
+                <div class='joinRoom'>
+                    <div class='title'>Join Room</div>
+                        <input id='joinRoomId' placeholder="Room ID" required><br>
+                        <input id='joinRoomPass' placeholder="Room Password" required>
+                        <button id='join'>Join</button>
+                </div>
             </div>
-        </div>
-        <div class="divider
-        "></div>
-        <div class='container2'>
-            <ul id='members'>
-                <li>Gang Members Online:</li>
-            </ul>
+            <div class='divider'></div>
+            <div class='subC2'>
+                <div class='createRoom'>
+                    <div class='title'>Create Room</div>
+                        <input id='createRoomName' placeholder="Room Name" required>
+                        <input id='createRoomPass' placeholder="Room Password" required>
+                        <button id='create'>Create</button>
+                </div>
+            </div>
         </div>
         
-        <form id='form1'>
-            <div class='blocks'>
-                <div class='block1'> <input id='inp1' autocomplete="off" spellcheck="false" required placeholder="Type here"></input> </div>
-                <div class='block2'> <button type='submit' id='btn1'>send</button> </div>
-            </div>
-        </form>
-
+        <button id='joinCurRoom'>Join Current Room</button>
+        <div class='footer'>
+            User-name: <span id='pName'></span> &nbsp&nbsp&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp 
+            Total players In-game: <%= numUsers %> &nbsp&nbsp&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp 
+            Current-Room: <span id='curRoom'></span></span>
+        </div>
+        <div id='overlay'></div>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script>   
-        document.addEventListener("DOMContentLoaded", function(event) {
-            let socket = io();
-            let form = document.getElementById("form1");
-            form.addEventListener('submit', handleForm);
-            function handleForm(event){ 
-                event.preventDefault(); 
-                let msg = document.getElementById('inp1').value;
-                socket.emit('chat message', msg);
-                document.getElementById('inp1').value = '';
-                return false;
-            }
-            socket.on('chat message2', function(msg){
-                var node = document.createElement("li");
-                var textnode = document.createTextNode(msg);
-                node.appendChild(textnode);
-                document.getElementById("messages").appendChild(node);
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-            socket.on('msgFromServer', function(msg){
-                var node = document.createElement("li");
-                var textnode = document.createTextNode(msg);
-                node.appendChild(textnode);
-                document.getElementById("messages").appendChild(node);
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-        });
-            
-        </script>
-
-        
+        <script src="homeScript.js"></script>
     </body>
 </html>

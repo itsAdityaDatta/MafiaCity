@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mafia City</title>
+        <link rel="stylesheet" type="text/css" href="gameStyle.css">
+        <link rel="icon" href="favicon.ico">
+        <link href="https://fonts.googleapis.com/css?family=Abel|Bellota+Text&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Economica|Lobster+Two&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class='header'>Mafia City</div>
+        <div class='container'>
+            <div class='messagesDiv'>
+                <ul id='messages'>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class='container2'>
+            <button id='leaveRoom'>Leave Room</button>
+            <ul id='members'>
+                <li>Gang Members Online:</li>
+            </ul>
+        </div>
+        
+        <form id='form1'>
+            <div class='blocks'>
+                <div class='block1'> <input id='inp1' autocomplete="off" spellcheck="false" required placeholder="Type here"></input> </div>
+                <div class='block2'> <button type='submit' id='btn1'>send</button> </div>
+            </div>
+        </form>
+
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src='gameScript.js'></script>
+
+        
+    </body>
+</html>
