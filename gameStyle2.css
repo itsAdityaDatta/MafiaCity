@@ -1,0 +1,174 @@
+:root {
+	--color-primary: hsl(0, 0%, 95%);
+	--color-header: hsl(349, 75%, 61%);
+	--color-border-1: #848788;
+	--color-border-2: #eae7dc;
+	--color-white: #fff;
+	--color-hover: #28424d;
+}
+
+body {
+	background-color: var(--color-primary);
+	margin: 0;
+}
+
+.header {
+	background-color: var(--color-header);
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: white;
+	font-size: 66px;
+	font-family: "Economica", sans-serif;
+	width: 100%;
+	position: fixed;
+	border-bottom: 2px solid var(--color-border-1);
+	text-align: center;
+	z-index: 100;
+	cursor: default;
+}
+
+#form1 {
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	text-align: center;
+	background-color: var(--color-header);
+	border-top: 2px solid var(--color-border-top);
+}
+
+input {
+	resize: none;
+	white-space: pre-line;
+}
+
+input:focus {
+	outline: none;
+}
+
+#inp1 {
+	width: 100%;
+	padding: 0px;
+	background-color: var(--color-header);
+	font-size: 18px;
+	color: black;
+	font-family: "Abel";
+	border: none;
+	padding-left: 5px;
+}
+
+#inp1:focus {
+	border: none;
+}
+
+#btn:checked {
+	outline: none;
+}
+
+#btn1 {
+	width: 100%;
+	padding: 5px;
+	cursor: pointer;
+	font-size: 18px;
+	color: black;
+	overflow: hidden;
+	background-color: var(--color-header);
+	font-family: "Abel";
+	border: none;
+	border-left: 2px solid var(--color-border-2);
+	outline: none;
+}
+
+#btn1:hover {
+	background-color: var(--color-hover);
+}
+
+.blocks {
+	width: 100%;
+	text-align: right;
+}
+
+.block1 {
+	display: inline-block;
+	width: 88%;
+}
+
+.block2 {
+	display: inline-block;
+	width: 11%;
+	height: 100%;
+}
+.container {
+	width: 50%;
+	height: 100%;
+	margin-top: 113px;
+	margin-bottom: 44px;
+	word-wrap: break-word;
+	float: left;
+	padding-left: 5px;
+}
+.divider {
+	border-left: 3px solid var(--color-border-2);
+	height: 8950px;
+	position: fixed;
+	left: 50%;
+	margin-left: -3px;
+}
+
+.container2 {
+	width: 49%;
+	height: 100%;
+	position: fixed;
+	float: left;
+	margin-top: 113px;
+	margin-bottom: 34px;
+	word-wrap: break-word;
+	left: 50%;
+	padding-left: 5px;
+}
+.messagesDiv {
+	width: 100%;
+}
+
+#messages {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	font-family: "Abel";
+	font-size: 21px;
+	color: black;
+}
+#messages li {
+	padding: 2px 10px;
+	color: black;
+}
+
+#members {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	font-family: "Abel";
+	font-size: 21px;
+	color: black;
+	margin-top: 15px;
+}
+#members li {
+	padding: 2px 10px;
+	color: black;
+}
+
+#leaveRoom {
+	width: 110%;
+	font-family: "Abel";
+	font-size: 20px;
+	margin: -5px;
+	background-color: hsl(240, 1%, 48%);
+	border: none;
+	border-bottom: 2px solid var(--color-border-1);
+	color: white;
+	padding: 5px;
+}
+
+#leaveRoom:hover {
+	background-color: var(--color-hover);
+	cursor: pointer;
+}

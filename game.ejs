@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mafia City</title>
+        <link rel="stylesheet" type="text/css" title="dark" href="gameStyle.css">
+        <link rel="stylesheet" type="text/css"  title="light"  href="gameStyle2.css">
+        <link rel="icon" href="favicon.ico">
+        <link href="https://fonts.googleapis.com/css?family=Abel|Bellota+Text&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Economica|Lobster+Two&display=swap" rel="stylesheet">
+    </head>
+   
+   
+        
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="gameScript.js"></script>
+        
+
+       <body onload="set_style_from_cookie()">
+       <div class='header'>
+            <span>Mafia City</span>
+            <button type="button" onclick="switch_style('dark');return false;" name="theme" value="dark Theme" id="dark">Dark Theme</button>
+            <button type="button" onclick="switch_style('light');return false;" name="theme" value="light Theme" id="light">light Theme</button>
+        </div>
+
+        <div class='container'>
+            <div class='messagesDiv'>
+                <ul id='messages'>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class='container2'>
+            <button id='leaveRoom'>Leave Room</button>
+            <ul id='members'>
+                <li>Gang Members Online:</li>
+            </ul>
+        </div>
+        
+        <form id='form1'>
+            <div class='blocks'>
+                <div class='block1'> <input id='inp1' autocomplete="off" spellcheck="false" required placeholder="Type here"></input> </div>
+                <div class='block2'> <button type='submit' id='btn1'>send</button> </div>
+            </div>
+        </form>
+
+        
+        
+       
+        
+    </body>
+</html>
