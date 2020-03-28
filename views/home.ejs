@@ -14,18 +14,22 @@
             <div class='subC1'>
                 <div class='joinRoom'>
                     <div class='title'>Join Room</div>
-                        <input id='joinRoomId' placeholder="Room ID" required><br>
-                        <input id='joinRoomPass' placeholder="Room Password" required>
-                        <button id='join'>Join</button>
+                        <form action="javascript:void(0);">
+                            <input id='joinRoomId' placeholder="Room ID" required><br>
+                            <input id='joinRoomPass' placeholder="Room Password" required>
+                            <button id='join'>Join</button>
+                        </form>
                 </div>
             </div>
             <div class='divider'></div>
             <div class='subC2'>
                 <div class='createRoom'>
                     <div class='title'>Create Room</div>
-                        <input id='createRoomName' placeholder="Room Name" required>
-                        <input id='createRoomPass' placeholder="Room Password" required>
-                        <button id='create'>Create</button>
+                        <form action="javascript:void(0);">
+                            <input id='createRoomName' placeholder="Room Name" required>
+                            <input id='createRoomPass' placeholder="Room Password" required>
+                            <button id='create'>Create</button>
+                        </form>
                 </div>
             </div>
         </div>
@@ -33,7 +37,6 @@
         <button id='joinCurRoom'>Join Current Room</button>
         <div class='footer'>
             User-name: <span id='pName'></span> &nbsp&nbsp&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp 
-            Total players In-game: <%= numUsers %> &nbsp&nbsp&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp 
             Current-Room: <span id='curRoom'></span></span>
         </div>
         <div id='overlay'></div>

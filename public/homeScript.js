@@ -1,40 +1,39 @@
+let socket = io();
+
 document.addEventListener("DOMContentLoaded", function(event) {  
     checkCookie();
     setTimeout(function(){
         document.getElementById('overlay').style.display = 'none';
     },100);
-    class room{
-        constructor(name,pass,numPlayers,isTaken){
-            this.name = null,
-            this.pass = null,
-            this.numPlayers = 0,
-            this.isTaken = false
-        }
+    function room(name,pass,numPlayers,isTaken){
+            this.name = "";
+            this.pass = "";
+            this.players = [];
     }
     let rooms = [];
 
     document.getElementById('create').addEventListener('click',()=>{
-        let count = 0;
-        rooms.forEach(function(room){
-            if(room.name == document.getElementById('createRoomName')){                 //NOT WORKING ABHI TOH
-                count = 1;
-                alert('Room name already taken.','Please choose another room name.');
-            }
-        });
-        if(document.getElementById('createRoomPass').value != "" && document.getElementById('createRoomName').value != "" && count==0 && getCookie('isInRoom') == 0){
+        if(document.getElementById('createRoomPass').value != "" && document.getElementById('createRoomName').value != "" && getCookie('isInRoom') == 0){ 
             let name2 = document.getElementById('createRoomName').value;
             let pass2 = document.getElementById('createRoomPass').value;
-            let newRoom = new room(name2,pass2,1,true);
-            rooms.push(newRoom);
-            
-            setCookie("roomName",name2);
-            setCookie("roomPass",pass2);
-            setCookie("isInRoom",1);
-            window.location.href = "/game";
+            socket.emit('createRoom',name2,pass2);
         }
+
         else if(getCookie('isInRoom') == 1){
-            alert("You're already in a room. Please join the current room and leave it first.");
+            alert("You're already in a room.\nPlease join the current room and leave it first.");
         }
+    });
+
+    socket.on('roomAlreadyExists',(rName,rPass)=>{
+        alert('A room by the name of ' + rName + ' already exists.\nPlease select a different room name.');
+    });
+
+    socket.on('roomNotExists',(rName,rPass)=>{
+        setCookie("roomName",rName);
+        setCookie("roomPass",rPass);
+        setCookie("isInRoom",1);
+        socket.emit('createRoomJoin',rName,rPass,getCookie('playerName'));
+        window.location.href = "/game";
     });
 
     document.getElementById('joinCurRoom').addEventListener('click',()=>{
@@ -45,10 +44,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             alert("You are currently not a part of any room.");
         }
     });
-
-
-
 });
+
+//_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
 
 function setCookie(cname,cvalue,exdays) {
     document.cookie = cname + "=" + cvalue;
