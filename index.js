@@ -49,7 +49,11 @@ io.on('connection', (socket)=>{
   
     socket.on('chat message', function(msg,roomName,playerName){
         io.to(roomName).emit('chat message2', msg, playerName);
-    });  
+    }); 
+    
+    socket.on('global chat message',function(msg,playerName){
+        io.emit('global chat message2',msg,playerName);
+    });
 
     socket.on('disconnecting', (reason) => {
         socket.to(socket.room).emit('disconnecting2',socket.playerName);
@@ -60,7 +64,12 @@ io.on('connection', (socket)=>{
                 if(mRooms[i].name == socket.room){
                     for(let j=0;j<mRooms[i].players.length;j++){
                         if(mRooms[i].players[j] == socket.playerName){
-                            mRooms[i].players.splice(j,1);                      // JOIN se test hogaa ye
+                            mRooms[i].players.splice(j,1);                      // DOESNT WORK
+                            mRooms[i].save(function(err){
+                                if(err){
+                                    console.log(err);
+                                }
+                            });
                         }
                     }
                 }
@@ -83,7 +92,7 @@ io.on('connection', (socket)=>{
         const newRoom = new mongoRooms({
             name : roomName,
             pass : roomPass,
-            players : [playerName]
+            players : []
         });
 
         newRoom.save(function(err){
@@ -102,17 +111,23 @@ io.on('connection', (socket)=>{
         console.log(socket.playerName + " has joined the room " + roomName);
         io.to(roomName).emit('createJoin', playerName);
 
-        mongoRooms.find({}, function(err, mRooms){      //mRooms is an array of rooms
+        mongoRooms.find({}, function(err, mRooms){          //mRooms is an array of rooms
             for(let i=0;i<mRooms.length;i++){
                 if(mRooms[i].name == roomName){
-                    mRooms[i].players.push(playerName);
+                    mRooms[i].players.push(playerName);     //onDisconnect array se hatana bhi padega
+                    mRooms[i].save(function(err){
+                        if(err){
+                            console.log(err);
+                            window.alert('An error has occured with MongoDB');
+                        }
+                    });
                 }
             }
         }); 
     });
 
     socket.on('createRoom',(rName,rPass)=>{
-        mongoRooms.find({}, function(err, mRooms){      //mRooms is an array of rooms
+        mongoRooms.find({}, function(err, mRooms){          //mRooms is an array of rooms
             let flag = 0;
             mRooms.forEach(function(room){
                 if(room.name == rName){
@@ -125,6 +140,31 @@ io.on('connection', (socket)=>{
             }
         });  
     });
+
+    socket.on('joinRoom',(rName,rPass)=>{
+        mongoRooms.find({}, function(err, mRooms){      //mRooms is an array of rooms
+            let flag = 0;
+            mRooms.forEach(function(room){
+                if(room.name == rName){
+                    if(room.pass == rPass){
+                        socket.emit('roomExists',rName,rPass);
+                    }
+                    else{
+                        socket.emit('wrongPass',rName,rPass);
+                    }
+                    flag = 1;
+                }
+            });
+            if(flag  == 0){
+                socket.emit('roomNotExists2',rName);
+            }
+        });  
+    });
+
+    socket.on('joinsRoom',(rName,rPass,playerName)=>{
+        socket.join(rName);
+        console.log(playerName + " has joined the room " + rName);
+    })
 });
 
 

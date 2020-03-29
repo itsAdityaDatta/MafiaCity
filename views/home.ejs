@@ -8,37 +8,53 @@
         <link href="https://fonts.googleapis.com/css?family=Economica|Lobster+Two&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class='header'>Mafia City</div>            
-
+        <div class='header'>Mafia City</div> 
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox">
+                <div class="slider round"></div>
+            </label>
+        </div>        
         <div class='container'>
             <div class='subC1'>
                 <div class='joinRoom'>
                     <div class='title'>Join Room</div>
                         <form action="javascript:void(0);">
-                            <input id='joinRoomId' placeholder="Room ID" required><br>
-                            <input id='joinRoomPass' placeholder="Room Password" required>
+                            <input class='input2' id='joinRoomName' placeholder="Room Name" required><br>
+                            <input class='input2'  id='joinRoomPass' placeholder="Room Password" required>
                             <button id='join'>Join</button>
+                            <button id='joinCurRoom'>Join Current Room</button>
                         </form>
                 </div>
-            </div>
-            <div class='divider'></div>
-            <div class='subC2'>
+                <div class='divider2'></div>
                 <div class='createRoom'>
-                    <div class='title'>Create Room</div>
-                        <form action="javascript:void(0);">
-                            <input id='createRoomName' placeholder="Room Name" required>
-                            <input id='createRoomPass' placeholder="Room Password" required>
-                            <button id='create'>Create</button>
-                        </form>
+                    <div class='title'>
+                        Create Room
+                    </div>
+                    <form action="javascript:void(0);">
+                        <input  class='input2' id='createRoomName' placeholder="Room Name" required>
+                        <input  class='input2' id='createRoomPass' placeholder="Room Password" required>
+                        <button id='create'>Create</button>
+                    </form>
                 </div>
             </div>
+            <div class='divider'></div> 
         </div>
-        
-        <button id='joinCurRoom'>Join Current Room</button>
         <div class='footer'>
             User-name: <span id='pName'></span> &nbsp&nbsp&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp 
             Current-Room: <span id='curRoom'></span></span>
         </div>
+        <div class='msgContainer'>
+            <div class='messagesDiv'>
+                <ul id='messages'>
+                    <li>Server: Welcome to the global chat</li>
+                </ul>
+            </div>
+        </div>
+        <form id='globalForm'>
+            <input id='globalInp' autocomplete="off" spellcheck="false" required placeholder="Type here"></input> </div>
+            <button id='globalSubmit' type='submit'>+</button> </div>
+        </form>
         <div id='overlay'></div>
 
         <script src="/socket.io/socket.io.js"></script>

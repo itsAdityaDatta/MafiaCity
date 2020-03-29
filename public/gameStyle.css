@@ -101,8 +101,8 @@ input:focus{
     border-left: 3px solid #bbe1fa;
     height: 8950px;
     position: fixed;
+    top: -50px;
     left: 50%;
-    margin-left: -3px;
 }
 
 .container2{
@@ -158,6 +158,7 @@ input:focus{
     background-color: #1b262c;
     border: none;
     border-bottom: 2px solid #bbe1fa;
+    border-left: 2px solid #bbe1fa;
     color: white;
     padding: 5px;
 }

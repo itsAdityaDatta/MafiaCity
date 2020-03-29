@@ -20,31 +20,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
     });
-
-    socket.on('instructions', function(msg){
-        var node = document.createElement("li");
-        var textnode = document.createTextNode(msg);
-        node.appendChild(textnode);
-        document.getElementById("messages").appendChild(node);
-        window.scrollTo(0, document.body.scrollHeight);
-    });
     
     socket.on('createJoin',(playerName)=>{
-
         var node = document.createElement("li");
-        let msg = 'Server: ' + playerName+ ' has joined the room'; 
+        let msg = 'Server: ' + playerName+ ' has joined the room: ' + getCookie('roomName'); 
         var textnode = document.createTextNode(msg);
         node.appendChild(textnode);
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight); 
-        
-        var node2 = document.createElement("li");
-        let msg2 = 'Server: ' + '(Room Name: ' + getCookie('roomName') + ' | Room Password: ' + getCookie('roomPass') + ")"; 
-        var textnode2 = document.createTextNode(msg2);
-        node2.appendChild(textnode2);
-        document.getElementById("messages").appendChild(node2);
-        window.scrollTo(0, document.body.scrollHeight);
-
     });
 
     socket.on('disconnecting2',(playerName)=>{
@@ -61,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(ans == true){
             setCookie('roomName',"");
             setCookie('isInRoom',0);
-            window.location.href = "/";
+            window.location.href = "/";     
         }
     });
 
