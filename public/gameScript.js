@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(ans == true){
             setCookie('roomName',"");
             setCookie('isInRoom',0);
-            window.location.href = "/";     
+            window.location.href = "/"; 
         }
     });
 

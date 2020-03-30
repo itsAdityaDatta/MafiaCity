@@ -165,7 +165,7 @@ button:hover{
     color: white;
     font-family: 'Abel';
     border: none;
-    padding: 5px;
+    padding: 5.5px;
     padding-left: 10px;
     padding-right: 10px;
     border-top: 2px solid var(--color4);
@@ -175,7 +175,9 @@ button:hover{
     position: fixed;
     right: 50%;
     bottom: 0px;
+    padding-top: 6px;
     width: 10%;
+    z-index: 5;
     border-bottom: none;
     border-top: 2px solid var(--color4);
     border-right: 2px solid var(--color4);
@@ -218,7 +220,7 @@ input:focus{
     z-index: 110;
     position: fixed;
     left: 10px;
-    top: 10px;
+    top: 20px;
 }
 
 .theme-switch {

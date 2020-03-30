@@ -17,6 +17,13 @@ const roomSchema = new mongoose.Schema({
     }
 });
 
+// let rooms = [];
+// function room(name,pass,players){
+//     this.name = name;
+//     this.pass = pass;
+//     this.players = players;
+// }
+
 const mongoRooms = mongoose.model("rooms",roomSchema);
 
 let port = process.env.PORT;                            // Heroku
@@ -59,12 +66,12 @@ io.on('connection', (socket)=>{
         socket.to(socket.room).emit('disconnecting2',socket.playerName);
         console.log(socket.playerName + ' has left the room: ' + socket.room);
         
-        mongoRooms.find({}, function(err, mRooms){      //mRooms is an array of rooms
+        mongoRooms.find({}, function(err, mRooms){                              //mRooms is an array of rooms
             for(let i=0;i<mRooms.length;i++){
                 if(mRooms[i].name == socket.room){
                     for(let j=0;j<mRooms[i].players.length;j++){
                         if(mRooms[i].players[j] == socket.playerName){
-                            mRooms[i].players.splice(j,1);                      // DOESNT WORK
+                            mRooms[i].players.splice(j,1);                  
                             mRooms[i].save(function(err){
                                 if(err){
                                     console.log(err);
@@ -164,7 +171,8 @@ io.on('connection', (socket)=>{
     socket.on('joinsRoom',(rName,rPass,playerName)=>{
         socket.join(rName);
         console.log(playerName + " has joined the room " + rName);
-    })
+    });
+
 });
 
 

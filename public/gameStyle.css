@@ -192,7 +192,7 @@ input:focus{
     z-index: 110;
     position: fixed;
     left: 10px;
-    top: 10px;
+    top: 20px;
 }
 
 .theme-switch {
