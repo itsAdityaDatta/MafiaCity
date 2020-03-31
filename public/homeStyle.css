@@ -1,9 +1,10 @@
 :root {
     --color0: #1f1f1f;
-    --color1: #1b262c;
+    --color1: #1d2f38;
     --color2: #28424d;
     --color3: #ffffff;
     --color4: #bbe1fa;
+    --color5: #192329;
 }
 
 [data-theme="light"] {
@@ -11,8 +12,19 @@
 	--color1: #522449 ;
 	--color2: #743767;
 	--color3: black;
-	--color4: #000000;
+    --color4: #000000;
+    --color5: #42183a;
 }
+
+[data-theme="other"] {
+    --color0: #e9e9e96b;
+	--color1: #5e112b ;
+	--color2: #773047;
+	--color3: black;
+    --color4: #000000;
+    --color5: #3a0819;
+}
+
 
 html{
     font-family: 'Abel';
@@ -57,25 +69,25 @@ body{
     color: var(--color3);
 }
 .divider{
-    border-left: 2px solid var(--color4);
+    border-right: 2px solid var(--color4);
     height: 8960px;
     position: fixed;
     z-index: 99;
-    left: 50%;
+    left: 50.1%;
     margin-left: -3px;
 }
 
 .divider2{
     border-top: 2px solid var(--color4);
     width: 50%;
-    margin-top: 65px;
+    margin-top: 80px;
     position: fixed;
     z-index: 99;
     left: 50%;
 }
 
 .joinRoom{
-    margin-top: 80px;
+    margin-top: 65px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
@@ -84,6 +96,7 @@ body{
 .title{
     font-size: 40px;
     font-family: 'Economica', sans-serif;
+    display: inline;
 }
 
 .input2{
@@ -95,8 +108,12 @@ body{
     border: 1.5px solid black;
 }
 
+input:focus{
+    outline:none;
+}
+
 .createRoom{
-    margin-top: 100px;
+    margin-top: 120px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
@@ -108,7 +125,7 @@ button{
     font-family: 'Abel';
     font-size: 18px;
     color: white;
-    background-color: var(--color1);
+    background-color: var(--color5);
     border: 1.5px solid var(--color4);
     padding: 5px
 }
@@ -126,6 +143,10 @@ button:hover{
     background-color: var(--color2);;
 }
 
+button:checked{
+    outline: none;
+}
+
 .footer{
     background-color: var(--color1);
     font-size: 16px;
@@ -133,6 +154,7 @@ button:hover{
     position: fixed;
     bottom: 0;
     left: 50%;
+    z-index: 40;
     padding-bottom: 8px;
     padding-top: 8px;
     border-top: 2px solid var(--color4);
@@ -155,7 +177,7 @@ button:hover{
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 100;
+    z-index: 40;
 }
 
 #globalInp{
@@ -180,8 +202,12 @@ button:hover{
     z-index: 5;
     border-bottom: none;
     border-top: 2px solid var(--color4);
-    border-right: 2px solid var(--color4);
+    border-right: none;
     
+}
+
+#globalSubmit:checked{
+    outline: none;
 }
 
 input:focus{
@@ -200,7 +226,7 @@ input:focus{
     color: var(--color3);
 }
 #messages li { 
-    padding: 2px 10px;
+    padding: 3px 10px;
     color: var(--color3);
 }
 

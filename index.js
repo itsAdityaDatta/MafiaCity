@@ -35,10 +35,12 @@ app.get("/",function(req,res){
     });
 });
 
-let numUsersConnected = 0;
 io.on('connection', (socket)=>{
-    numUsersConnected++;
-  
+
+    socket.on('newPlayerConnected',(pName)=>{
+        io.emit('newPlayerConnected2',pName);
+    });
+
     socket.on('chat message', function(msg,roomName,playerName){
         socket.broadcast.to(roomName).emit('chat message2', msg, playerName);
     }); 
@@ -60,10 +62,6 @@ io.on('connection', (socket)=>{
                 }
             }
         }
-    });
-
-    socket.on('disconnect',function(){
-        numUsersConnected--;
     });
 
     socket.on('createRoomJoin',(roomName,roomPass,playerName)=>{

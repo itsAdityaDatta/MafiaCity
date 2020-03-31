@@ -1,9 +1,10 @@
 :root {
     --color0: #1f1f1f;
-    --color1: #1b262c;
+    --color1: #1d2f38;
     --color2: #28424d;
     --color3: #ffffff;
     --color4: #bbe1fa;
+    --color5: #192329;
 }
 
 [data-theme="light"] {
@@ -11,7 +12,8 @@
 	--color1: #522449 ;
 	--color2: #743767;
 	--color3: black;
-	--color4: #000000;
+    --color4: #000000;
+    --color5: #42183a;
 }
 
 body{
@@ -19,6 +21,9 @@ body{
     background-color: var(--color0);
     margin: 0;
 }
+
+
+
 
 .header{    
     background-color: var(--color1);
@@ -68,7 +73,7 @@ input:focus{
     border: none;
 }
 
-#btn:checked{
+#btn1:checked{
     outline: none;
 }
 
@@ -79,7 +84,7 @@ input:focus{
     font-size: 18px;
     color: #ffffff;
     overflow: hidden;
-    background-color: var(--color1);
+    background-color: var(--color5);
     font-family: 'Abel';
     border: none;
     border-left: 2px solid var(--color4);
@@ -148,7 +153,7 @@ input:focus{
     color: var(--color3);
 }
 #messages li { 
-    padding: 2px 10px;
+    padding: 3px 10px;
     color: var(--color3); 
 }
 
@@ -172,7 +177,7 @@ input:focus{
     font-family: 'Abel';
     font-size: 20px;
     margin: -5px;
-    background-color: var(--color1);
+    background-color: var(--color5);
     border: none;
     border-bottom: 2px solid var(--color4);
     border-left: 2px solid var(--color4);
@@ -183,6 +188,11 @@ input:focus{
 #leaveRoom:hover {
     background-color: var(--color2);
     cursor: pointer;
+}
+
+
+#leaveRoom:checked{
+    outline: none;
 }
 
 

@@ -26,6 +26,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return false;
     }
 
+    socket.on('newPlayerConnected2',(pName)=>{
+        var node = document.createElement("li");
+        let msg = 'Server: '+ pName +' has joined the server'; 
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight); 
+    });
+
     socket.on('global chat message2',function(msg, playerName){
         var node = document.createElement("li");
         var textnode = document.createTextNode(playerName + ": " + msg);
@@ -134,6 +143,7 @@ function checkCookie() {
         };
         setCookie("playerName", playerName);
         setCookie('isInRoom',0);
+        socket.emit('newPlayerConnected',getCookie('playerName'));
     }
 }
 
