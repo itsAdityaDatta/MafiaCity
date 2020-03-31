@@ -7,10 +7,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let form = document.getElementById("form1");
     form.addEventListener('submit', handleForm);
     function handleForm(event){ 
+
         event.preventDefault(); 
         let msg = document.getElementById('inp1').value;
+        
+        var node = document.createElement("li");
+        var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
         socket.emit('chat message', msg, getCookie('roomName'), getCookie('playerName'));
         document.getElementById('inp1').value = '';
+
         return false;
     }
     socket.on('chat message2', function(msg,playerName){

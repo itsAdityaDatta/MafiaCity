@@ -40,11 +40,11 @@ io.on('connection', (socket)=>{
     numUsersConnected++;
   
     socket.on('chat message', function(msg,roomName,playerName){
-        io.to(roomName).emit('chat message2', msg, playerName);
+        socket.broadcast.to(roomName).emit('chat message2', msg, playerName);
     }); 
     
     socket.on('global chat message',function(msg,playerName){
-        io.emit('global chat message2',msg,playerName);
+        socket.broadcast.emit('global chat message2',msg,playerName);
     });
 
     socket.on('disconnecting', (reason) => {

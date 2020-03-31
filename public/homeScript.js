@@ -5,16 +5,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     setTimeout(function(){
         document.getElementById('overlay').style.display = 'none';
-    },100);
+    },200);
 
 
     let form = document.getElementById("globalForm");
     form.addEventListener('submit', handleForm);
     function handleForm(event){ 
+
         event.preventDefault(); 
         let msg = document.getElementById('globalInp').value;
+
+        var node = document.createElement("li");
+        var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
         socket.emit('global chat message', msg, getCookie('playerName'));
         document.getElementById('globalInp').value = '';
+
         return false;
     }
 
