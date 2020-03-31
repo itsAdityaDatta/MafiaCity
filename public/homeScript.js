@@ -3,10 +3,9 @@ let socket = io();
 document.addEventListener("DOMContentLoaded", function(event) {  
     checkCookie();
 
-    setTimeout(function(){
+    document.fonts.ready.then(function () {
         document.getElementById('overlay').style.display = 'none';
-    },200);
-
+    });
 
     let form = document.getElementById("globalForm");
     form.addEventListener('submit', handleForm);
