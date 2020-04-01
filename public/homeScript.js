@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(document.getElementById('joinRoomPass').value != "" && document.getElementById('joinRoomName').value != "" && getCookie('isInRoom') == 0){ 
             let name1 = document.getElementById('joinRoomName').value;
             let pass1 = document.getElementById('joinRoomPass').value;
-            socket.emit('joinRoom',name1,pass1);
+            socket.emit('joinRoom',name1,pass1,getCookie('playerName'));
         }
 
         else if(getCookie('isInRoom') == 1){
@@ -97,6 +97,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('wrongPass',(rName,rPass)=>{
         alert('The password you have entered: ' + rPass + ' is incorrect.\nRoom name: ' + rName);
+    });
+
+    socket.on('sameName',(pName)=>{
+        alert('A player by the name of ' + pName + ' already exists in that room.\nPlease change your name or join a different room');
     });
 
     socket.on('roomExists',(rName,rPass)=>{

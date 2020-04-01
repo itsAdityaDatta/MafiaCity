@@ -315,3 +315,12 @@ input:checked + .slider:before {
     background-color: var(--color6);
     margin-right: 12px;
 }
+
+#footer2{
+    position: fixed;
+    bottom: 0px;
+    height: 34px;
+    background-color: var(--color1);
+    width: 100%;
+    border-top: 2px solid var(--color4);
+}

@@ -105,12 +105,21 @@ io.on('connection', (socket)=>{
 
     });
 
-    socket.on('joinRoom',(rName,rPass)=>{
+    socket.on('joinRoom',(rName,rPass,pName)=>{
         let flag = 0;
         rooms.forEach(function(room){
             if(room.name == rName){
                 if(room.pass == rPass){
-                    socket.emit('roomExists',rName,rPass);
+                    let nameCheckFlag = 0;
+                    room.players.forEach((player)=>{
+                        if(player == pName){
+                            socket.emit('sameName',pName);
+                            nameCheckFlag = 1;
+                        }
+                    });
+                    if(nameCheckFlag == 0){
+                        socket.emit('roomExists',rName,rPass);
+                    }
                 }
                 else{
                     socket.emit('wrongPass',rName,rPass);
