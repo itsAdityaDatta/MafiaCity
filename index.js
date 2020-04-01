@@ -50,9 +50,6 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('disconnecting', (reason) => {
-        socket.to(socket.room).emit('disconnecting2',socket.playerName);
-        console.log(socket.playerName + ' has left the room: ' + socket.room);
-        
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == socket.room){
                 for(let j=0;j<rooms[i].players.length;j++){
@@ -60,8 +57,11 @@ io.on('connection', (socket)=>{
                         rooms[i].players.splice(j,1);
                     }
                 }
+                io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
             }
         }
+        socket.to(socket.room).emit('disconnecting2',socket.playerName);
+        console.log(socket.playerName + ' has left the room: ' + socket.room);
     });
 
     socket.on('createRoomJoin',(roomName,roomPass,playerName)=>{
@@ -85,7 +85,8 @@ io.on('connection', (socket)=>{
 
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == roomName){
-                    rooms[i].players.push(playerName);     //onDisconnect array se hatana bhi padega
+                    rooms[i].players.push(playerName);     
+                    io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
             }
         }
     });

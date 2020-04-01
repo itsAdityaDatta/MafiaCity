@@ -48,6 +48,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.scrollTo(0, document.body.scrollHeight);
     });
 
+    socket.on('refreshPlayersArray',(players)=>{                                // players array
+        document.getElementById('members').innerHTML = "";
+        players.forEach((player)=>{
+            var node = document.createElement("li");    
+            var textnode = document.createTextNode(player);
+            node.appendChild(textnode);
+            document.getElementById("members").appendChild(node);
+        });
+    });
+
     document.getElementById('leaveRoom').addEventListener('click',()=>{
         let ans = confirm('Are you sure you want to leave the current room?');
         if(ans == true){
