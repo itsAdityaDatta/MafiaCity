@@ -181,9 +181,18 @@ input:focus{
     color: var(--color3);
     margin-top: 15px;
 }
-#members li { 
-    padding: 2px 10px;
-    color: var(--color3); 
+#members li {
+    padding-left: 10px;
+}
+
+#admin{
+    color: var(--color7);
+    background-color: var(--color6);
+    display: inline-block;
+    margin-left: -3px;
+    padding-right: 150px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 #leaveRoom{

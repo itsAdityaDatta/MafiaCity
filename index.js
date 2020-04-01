@@ -53,7 +53,13 @@ io.on('connection', (socket)=>{
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == socket.room){
                 for(let j=0;j<rooms[i].players.length;j++){
-                    if(rooms[i].players[j] == socket.playerName){
+                    if(rooms[i].players[j].name == socket.playerName){
+                        if(rooms[i].players[j].isAdmin == 1){
+                            if(rooms[i].players.length!= 1){
+                                io.to(rooms[i].name).emit('adminChange',rooms[i].players[1].name);
+                                rooms[i].players[1].isAdmin = 1;
+                            }                  
+                        }
                         rooms[i].players.splice(j,1);
                     }
                 }
@@ -76,7 +82,7 @@ io.on('connection', (socket)=>{
 
     });
 
-    socket.on('createRoomJoin2',(roomName,roomPass,playerName)=>{
+    socket.on('roomJoin',(roomName,roomPass,playerName)=>{
         socket.join(roomName);
         socket.room = roomName;
         socket.playerName = playerName;
@@ -85,7 +91,13 @@ io.on('connection', (socket)=>{
 
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == roomName){
-                    rooms[i].players.push(playerName);     
+                    if(rooms[i].players.length == 0){
+                        rooms[i].players.push({name: playerName,isAdmin: 1,isMule: 0,score: 0});    
+                        socket.emit('admin');
+                    }
+                    else{
+                        rooms[i].players.push({name: playerName,isAdmin: 0,isMule: 0,score: 0});
+                    } 
                     io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
             }
         }
@@ -112,7 +124,7 @@ io.on('connection', (socket)=>{
                 if(room.pass == rPass){
                     let nameCheckFlag = 0;
                     room.players.forEach((player)=>{
-                        if(player == pName){
+                        if(player.name == pName){
                             socket.emit('sameName',pName);
                             nameCheckFlag = 1;
                         }

@@ -50,11 +50,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.scrollTo(0, document.body.scrollHeight);
     });
 
+    socket.on('admin',()=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'serverMsg');
+        let msg = 'Server: You are now the admin of this room.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    socket.on('adminChange',(pName)=>{
+        if(getCookie('playerName') == pName){
+                var node = document.createElement("li");
+                node.setAttribute("id",'serverMsg');
+                let msg = 'Server: You are now the admin of this room.';      
+                var textnode = document.createTextNode(msg);
+                node.appendChild(textnode);
+                document.getElementById("messages").appendChild(node);
+                window.scrollTo(0, document.body.scrollHeight);
+        }        
+    });
+
     socket.on('refreshPlayersArray',(players)=>{                                // players array
         document.getElementById('members').innerHTML = "";
         players.forEach((player)=>{
             var node = document.createElement("li");    
-            var textnode = document.createTextNode(player);
+            if(player.isAdmin == 1){
+                node.setAttribute("id","admin");
+            }
+            var textnode = document.createTextNode(player.name);
             node.appendChild(textnode);
             document.getElementById("members").appendChild(node);
         });
@@ -101,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         else{
            let roomName = getCookie('roomName');
            let roomPass = getCookie('roomPass');
-           socket.emit('createRoomJoin2',roomName,roomPass,playerName);
+           socket.emit('roomJoin',roomName,roomPass,playerName);
         }
     }
 });
