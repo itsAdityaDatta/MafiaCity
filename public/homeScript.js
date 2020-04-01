@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('newPlayerConnected2',(pName)=>{
         var node = document.createElement("li");
+        node.setAttribute("id",'serverMsg');
         let msg = 'Server: '+ pName +' has joined the server'; 
         var textnode = document.createTextNode(msg);
         node.appendChild(textnode);

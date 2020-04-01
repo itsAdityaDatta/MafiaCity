@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     socket.on('createJoin',(playerName)=>{
         var node = document.createElement("li");
+        node.setAttribute("id",'serverMsg');
         let msg = 'Server: ' + playerName+ ' has joined the room: ' + getCookie('roomName'); 
         var textnode = document.createTextNode(msg);
         node.appendChild(textnode);
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('disconnecting2',(playerName)=>{
         var node = document.createElement("li");
+        node.setAttribute("id",'serverMsg');
         let msg = 'Server: ' + playerName + ' has left the room';      
         var textnode = document.createTextNode(msg);
         node.appendChild(textnode);

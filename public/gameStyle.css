@@ -5,6 +5,8 @@
     --color3: #ffffff;
     --color4: #bbe1fa;
     --color5: #192329;
+    --color6: rgb(29, 67, 82);
+    --color7: white;
 }
 
 [data-theme="light"] {
@@ -14,6 +16,8 @@
 	--color3: black;
     --color4: #000000;
     --color5: #42183a;
+    --color6: #522449;
+    --color7: #ffffff;
 }
 
 body{
@@ -164,8 +168,7 @@ input:focus{
 }
 
 #messages li { 
-    padding: 3px 10px;
-    color: var(--color3); 
+    padding: 3px 5px;
 }
 
 
@@ -271,4 +274,11 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 0%;
     background-color: white;
+}
+
+#serverMsg{
+    color: var(--color7);
+    margin-bottom: 5px;
+    background-color: var(--color6);
+    margin-right: 12px;
 }
