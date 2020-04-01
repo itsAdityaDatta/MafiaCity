@@ -1,6 +1,6 @@
 # MafiaCity
 
-rooms [] => 
+rooms [] =>   
             room.name  
             room.pass  
             room.players[] => player.name  
@@ -9,7 +9,7 @@ rooms [] =>
                               player.isMule  
                               player.score  
                               
-Cookies : 
+Cookies :   
           playerName  
           roomName  
           isInRoom  
