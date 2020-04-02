@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
  
     checkCookie();
 
+    document.fonts.ready.then(function () {
+        document.getElementById('overlay').style.display = 'none';
+    });
+
     let form = document.getElementById("form1");
     form.addEventListener('submit', handleForm);
     function handleForm(event){ 
@@ -94,6 +98,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
+    window.addEventListener('unload',()=>{
+        if(getCookie('tabID') == sessionStorage.getItem('tabID')){
+            setCookie('tabID',-1);
+        }
+    });
 
 //_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
 
@@ -124,9 +133,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
             window.location.href = "/";
         }
         else{
-           let roomName = getCookie('roomName');
-           let roomPass = getCookie('roomPass');
-           socket.emit('roomJoin',roomName,roomPass,playerName);
+           if(getCookie('tabID') == sessionStorage.getItem('tabID')){  
+                let roomName = getCookie('roomName');
+                let roomPass = getCookie('roomPass');
+                socket.emit('roomJoin',roomName,roomPass,playerName);
+           }        
+           else if(getCookie('tabID') == -1){                  
+                let roomName = getCookie('roomName');
+                let roomPass = getCookie('roomPass');
+                socket.emit('roomJoin',roomName,roomPass,playerName);
+                sessionStorage.setItem('tabID',1000*Math.random());
+                setCookie('tabID',sessionStorage.getItem('tabID'));
+           }
+
+           else{
+               while(1){
+                    alert('A tab is already opened.\nIf it is not, please restart your browser.');
+               }
+           } 
         }
     }
 });

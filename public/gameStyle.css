@@ -16,7 +16,7 @@
 	--color3: black;
     --color4: #000000;
     --color5: #42183a;
-    --color6: #522449;
+    --color6: #66315b;
     --color7: #ffffff;
 }
 
@@ -26,8 +26,14 @@ body{
     margin: 0;
 }
 
-
-
+#overlay{
+    background-color: var(--color1);
+    height: 5000px;
+    width: 5000px;
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+}
 
 .header{    
     background-color: var(--color1);

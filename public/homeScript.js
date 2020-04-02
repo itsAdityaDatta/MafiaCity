@@ -1,6 +1,7 @@
 let socket = io();
 
 document.addEventListener("DOMContentLoaded", function(event) {  
+
     checkCookie();
 
     document.fonts.ready.then(function () {
@@ -111,6 +112,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.location.href = "/game";
     });
 
+    window.addEventListener('unload',()=>{
+        if(getCookie('tabID') == sessionStorage.getItem('tabID')){
+            setCookie('tabID',-1);
+        }
+    });
+
 });
 
 //_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
@@ -136,20 +143,38 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
+
     let playerName=getCookie("playerName");
     if (playerName != "") {
-        document.getElementById('pName').innerHTML = playerName;
-        document.getElementById('curRoom').innerHTML = getCookie('roomName');
+        if(getCookie('tabID') == sessionStorage.getItem('tabID')){
+            document.getElementById('pName').innerHTML = playerName;
+            document.getElementById('curRoom').innerHTML = getCookie('roomName');
+        }
+        else if(getCookie('tabID') == -1){
+            document.getElementById('pName').innerHTML = playerName;
+            document.getElementById('curRoom').innerHTML = getCookie('roomName');
+            sessionStorage.setItem('tabID',1000*Math.random());
+            setCookie('tabID',sessionStorage.getItem('tabID'));
+        }
+        else{
+            while(1){
+                alert('A tab is already opened.\nIf it is not, please restart your browser.');
+            }
+        }
+        
     }
     else{
         while(!playerName){
             playerName = prompt('Enter your in-game username');
             document.getElementById('pName').innerHTML = playerName;
         };
+        sessionStorage.setItem('tabID',1000*Math.random());
+        setCookie('tabID',sessionStorage.getItem('tabID'));
+
         setCookie("playerName", playerName);
         setCookie('isInRoom',0);
         socket.emit('newPlayerConnected',getCookie('playerName'));
-    }
+    }    
 }
 
 //_______________________________________________________________THEME SWITCH_________________________________________________________________

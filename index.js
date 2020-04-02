@@ -68,6 +68,8 @@ io.on('connection', (socket)=>{
         }
         socket.to(socket.room).emit('disconnecting2',socket.playerName);
         console.log(socket.playerName + ' has left the room: ' + socket.room);
+        socket.emit('tab');
+
     });
 
     socket.on('createRoomJoin',(roomName,roomPass,playerName)=>{
