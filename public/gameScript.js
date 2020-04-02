@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     function checkCookie() {
         let playerName=getCookie("playerName");
-        if (playerName == "") {
+        if (playerName == "" || getCookie('isInRoom') == 0) {
             window.location.href = "/";
         }
         else{
