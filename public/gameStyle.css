@@ -9,7 +9,19 @@
     --color7: white;
 }
 
+
 [data-theme="light"] {
+    --color0: #e9e9e96b;
+	--color1: #522449 ;
+	--color2: #743767;
+	--color3: black;
+    --color4: #000000;
+    --color5: #42183a;
+    --color6: #66315b;
+    --color7: #ffffff;
+}
+
+[data-theme="other"] {
     --color0: #e9e9e96b;
 	--color1: #522449 ;
 	--color2: #743767;

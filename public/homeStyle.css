@@ -9,6 +9,17 @@
     --color7: white;
 }
 
+[data-theme="other"] {
+    --color0: #e9e9e96b;
+	--color1: #8d2977;
+	--color2: #743767;
+	--color3: black;
+    --color4: #000000;
+    --color5: #42183a;
+    --color6: #66315b;
+    --color7: #ffffff;
+}
+
 [data-theme="light"] {
     --color0: #e9e9e96b;
 	--color1: #522449 ;
@@ -20,14 +31,6 @@
     --color7: #ffffff;
 }
 
-[data-theme="other"] {
-    --color0: #e9e9e96b;
-	--color1: #5e112b ;
-	--color2: #773047;
-	--color3: black;
-    --color4: #000000;
-    --color5: #3a0819;
-}
 
 
 html{

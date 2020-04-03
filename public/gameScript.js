@@ -54,25 +54,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.scrollTo(0, document.body.scrollHeight);
     });
 
-    socket.on('admin',()=>{
-        var node = document.createElement("li");
-        node.setAttribute("id",'serverMsg');
-        let msg = 'Server: You are now the admin of this room.';      
-        var textnode = document.createTextNode(msg);
-        node.appendChild(textnode);
-        document.getElementById("messages").appendChild(node);
-        window.scrollTo(0, document.body.scrollHeight);
-    });
-
     socket.on('adminChange',(pName)=>{
         if(getCookie('playerName') == pName){
-                var node = document.createElement("li");
-                node.setAttribute("id",'serverMsg');
-                let msg = 'Server: You are now the admin of this room.';      
-                var textnode = document.createTextNode(msg);
-                node.appendChild(textnode);
-                document.getElementById("messages").appendChild(node);
-                window.scrollTo(0, document.body.scrollHeight);
+            var node = document.createElement("li");
+            node.setAttribute("id",'serverMsg');
+            let msg = 'Server: You are now the admin of this room.';      
+            var textnode = document.createTextNode(msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
         }        
     });
 

@@ -94,8 +94,7 @@ io.on('connection', (socket)=>{
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == roomName){
                     if(rooms[i].players.length == 0){
-                        rooms[i].players.push({name: playerName,isAdmin: 1,isMule: 0,score: 0});    
-                        socket.emit('admin');
+                        rooms[i].players.push({name: playerName,isAdmin: 1,isMule: 0,score: 0});
                     }
                     else{
                         rooms[i].players.push({name: playerName,isAdmin: 0,isMule: 0,score: 0});
