@@ -70,16 +70,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.location.href = "/game";
     });
 
+
     document.getElementById('joinCurRoom').addEventListener('click',()=>{
         if(getCookie('isInRoom') == 1){
-            window.location.href = "/game";
+            socket.emit('currentRoomJoin',getCookie('roomName'),getCookie('playerName'));
         }
         else{
             alert("You are currently not a part of any room.");
         }
     });
 
-    
+    socket.on('curRoomJoins',()=>{
+        window.location.href = "/game";
+    });
+
     document.getElementById('join').addEventListener('click',()=>{
         if(document.getElementById('joinRoomPass').value != "" && document.getElementById('joinRoomName').value != "" && getCookie('isInRoom') == 0){ 
             let name1 = document.getElementById('joinRoomName').value;
@@ -102,6 +106,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('sameName',(pName)=>{
         alert('A player by the name of ' + pName + ' already exists in that room.\nPlease change your name or join a different room');
+        setCookie('roomName',"");
+        setCookie('roomPass',"");
+        setCookie("isInRoom",0);
+        document.getElementById('curRoom').innerHTML = "";
     });
 
     socket.on('roomExists',(rName,rPass)=>{
@@ -110,6 +118,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         setCookie("isInRoom",1);
         socket.emit('joinsRoom',rName,rPass,getCookie('playerName'));
         window.location.href = "/game";
+    });
+
+    socket.on('maxPlayers',(rName)=>{
+        alert('The room by the name of ' + rName + ' is full.\n Please join another room or create a new one.'); 
+        setCookie('roomName',"");
+        setCookie('roomPass',"");
+        setCookie("isInRoom",0);
+        document.getElementById('curRoom').innerHTML = "";
     });
 
     window.addEventListener('unload',()=>{

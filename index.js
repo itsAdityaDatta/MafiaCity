@@ -115,9 +115,10 @@ io.on('connection', (socket)=>{
         if(flag  == 0){
             socket.emit('roomNotExists',rName,rPass);
         }
-
     });
 
+
+    let maxPlayers = 3;
     socket.on('joinRoom',(rName,rPass,pName)=>{
         let flag = 0;
         rooms.forEach(function(room){
@@ -131,7 +132,12 @@ io.on('connection', (socket)=>{
                         }
                     });
                     if(nameCheckFlag == 0){
-                        socket.emit('roomExists',rName,rPass);
+                        if(room.players.length < maxPlayers){
+                            socket.emit('roomExists',rName,rPass);
+                        }
+                        else{
+                            socket.emit('maxPlayers',rName);
+                        }
                     }
                 }
                 else{
@@ -149,6 +155,28 @@ io.on('connection', (socket)=>{
     socket.on('joinsRoom',(rName,rPass,playerName)=>{
         socket.join(rName);
         console.log(playerName + " has joined the room " + rName);
+    });
+
+    socket.on('currentRoomJoin',(rName,playerName)=>{
+        rooms.forEach(function(room){
+            if(room.name == rName){
+                let nameCheckFlag = 0;
+                room.players.forEach((player)=>{
+                    if(player.name == playerName){
+                        socket.emit('sameName',playerName);
+                        nameCheckFlag = 1;
+                    }
+                });
+                if(nameCheckFlag == 0){
+                    if(room.players.length < maxPlayers){
+                        socket.emit('curRoomJoins');
+                    }
+                    else{
+                        socket.emit('maxPlayers',rName);
+                    }
+                }
+            }
+        });
     });
 
 });
