@@ -14,17 +14,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         event.preventDefault(); 
         let msg = document.getElementById('inp1').value;
+        if(msg == '/start' || msg == '/START'){
+           socket.emit('startTheGame',getCookie('roomName'),getCookie('playerName')); 
+           document.getElementById('inp1').value = '';
+        }
+        else{
+            var node = document.createElement("li");
+            var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+
+            socket.emit('chat message', msg, getCookie('roomName'), getCookie('playerName'));
+            document.getElementById('inp1').value = '';
+
+            return false;
+        }
         
-        var node = document.createElement("li");
-        var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
-        node.appendChild(textnode);
-        document.getElementById("messages").appendChild(node);
-        window.scrollTo(0, document.body.scrollHeight);
-
-        socket.emit('chat message', msg, getCookie('roomName'), getCookie('playerName'));
-        document.getElementById('inp1').value = '';
-
-        return false;
     }
     socket.on('chat message2', function(msg,playerName){
         var node = document.createElement("li");
@@ -71,9 +77,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         players.forEach((player)=>{
             var node = document.createElement("li");    
             if(player.isAdmin == 1){
-                node.setAttribute("id","admin");
+                node.setAttribute("id","isAdmin");
             }
-            var textnode = document.createTextNode(player.name);
+            var msg  = player.name + " " +  player.isDead + " " + player.isAdmin + " " + player.isAgent + " " + player.score + " " + player.canVote + " " + player.numVotes + " " + player.isPlaying;
+            var textnode = document.createTextNode(msg);
             node.appendChild(textnode);
             document.getElementById("members").appendChild(node);
         });
@@ -88,11 +95,156 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
+    socket.on('maxPlayersJoined',(adminName)=>{
+        if(getCookie('playerName') == adminName){
+            var node = document.createElement("li");
+            node.setAttribute("id",'serverMsg');
+            let msg = 'Server: Max. number of players have joined the game. Type /start to start the game.';      
+            var textnode = document.createTextNode(msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);                                                        // work on it
+        }
+    });
+
     window.addEventListener('unload',()=>{
         if(getCookie('tabID') == sessionStorage.getItem('tabID')){
             setCookie('tabID',-1);
         }
     });
+
+    socket.on('notAdmin',()=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'errorMsg');
+        let msg = 'ERROR: Only the admin can start the game.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight); 
+    });
+
+    socket.on('notEnoughPlayers',()=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'errorMsg');
+        let msg = 'ERROR: Insufficient number of players.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight); 
+    });
+
+    socket.on('gameInProgress',()=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'errorMsg');
+        let msg = 'ERROR: A game is already in progress.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight); 
+    });
+
+// _____________________________________________________________GAME ALGORITHM_________________________________________________________________
+  
+
+    socket.on('startTheGame',(players)=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'errorMsg');
+        let msg = 'Server: The admin ' + players[0].name + ' has started the game. The game will commence in 10 seconds.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    
+        count = 11; 
+        let startInterval = setInterval(function(){
+            count--;
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('startTimer').innerHTML = count;
+            if(count == 0){
+                clearInterval(startInterval);
+                if(getCookie('playerName') == players[0].name){
+                    socket.emit('gameStarts',getCookie('roomName'));
+                }
+            }
+        },1000);
+    });
+
+   socket.on('agents',(agentOne,agentTwo)=>{
+       if(getCookie('playerName') == agentOne){
+            var node = document.createElement("li");
+            node.setAttribute("id",'gameMsg');
+            let msg = 'Game: You, along with ' + agentTwo + ' are the undercover agents. Use * before your messages to deliver them to him/her only.';      
+            var textnode = document.createTextNode(msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+       }
+       else if(getCookie('playerName') == agentTwo){
+            var node = document.createElement("li");
+            node.setAttribute("id",'gameMsg');
+            let msg = 'Game: You, along with ' + agentOne + ' are the undercover agents. Use * before your messages to deliver them to him/her only.';      
+            var textnode = document.createTextNode(msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+   });
+
+    let timeInMinutes = 3;
+    socket.on('gameSetUp',()=>{
+        var node = document.createElement("li");
+        node.setAttribute("id",'gameMsg');
+        let msg = 'Game: The game has started, there are two undercover agents among the gang. Use /vote <id> to cast your votes. You have ' + timeInMinutes + ' minutes to cast your first vote.';      
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
+        //TIMER BANAAA IDHARRR
+    });
+
+    socket.on('refreshPlayersArrayGame',(players)=>{
+        document.getElementById('members').innerHTML = "";
+        let id = 0;
+        players.forEach((player)=>{
+            var node = document.createElement("li");    
+            if(player.isDead == 1){
+                if(player.isAgent == 1){
+                    node.setAttribute('id','agentDead');
+                }
+                else{
+                    node.setAttribute("id","isDead");    
+                }
+            }
+            else if(player.isDead == 0){
+                node.setAttribute("id",'isAlive');
+            }
+            var msg  = id + " " + player.name + " " +  player.isDead + " " + player.isAdmin + " " + player.isAgent + " " + player.score + " " + player.canVote + " " + player.numVotes + " " + player.isPlaying;
+            var textnode = document.createTextNode(msg);
+            node.appendChild(textnode);
+            document.getElementById("members").appendChild(node);
+            id++;
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
 

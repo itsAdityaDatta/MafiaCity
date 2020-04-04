@@ -1,5 +1,5 @@
 :root {
-    --color0: #1f1f1f;
+    --color0: #1b1b1b;
     --color1: #1d2f38;
     --color2: #28424d;
     --color3: #ffffff;
@@ -7,17 +7,19 @@
     --color5: #192329;
     --color6: rgb(29, 67, 82);
     --color7: white;
+    --color8: #1d2f38;
 }
 
 [data-theme="other"] {
-    --color0: #e9e9e96b;
-	--color1: #8d2977;
-	--color2: #743767;
+    --color0: rgb(247, 254, 255);
+	--color1: rgb(0, 153, 255) ;
+	--color2: rgb(0, 71, 126) ;
 	--color3: black;
     --color4: #000000;
-    --color5: #42183a;
-    --color6: #66315b;
+    --color5: rgb(0, 56, 99) ;
+    --color6: rgb(0, 80, 140) ;
     --color7: #ffffff;
+	--color8: rgb(0, 101, 168)  ;
 }
 
 [data-theme="light"] {
@@ -29,6 +31,7 @@
     --color5: #42183a;
     --color6: #66315b;
     --color7: #ffffff;
+	--color8: #522449 ;
 }
 
 
@@ -155,7 +158,7 @@ button:checked{
 }
 
 .footer{
-    background-color: var(--color1);
+    background-color: var(--color8);
     font-size: 16px;
     width: 49%;
     position: fixed;
@@ -190,7 +193,7 @@ button:checked{
 #globalInp{
     width: 78%;
     font-size: 18px;
-    background-color: var(--color1);
+    background-color: var(--color8);
     color: white;
     font-family: 'Abel';
     border: none;
@@ -323,7 +326,7 @@ input:checked + .slider:before {
     position: fixed;
     bottom: 0px;
     height: 34px;
-    background-color: var(--color1);
+    background-color: var(--color8);
     width: 100%;
     border-top: 2px solid var(--color4);
 }

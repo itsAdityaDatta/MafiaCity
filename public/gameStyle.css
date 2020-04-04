@@ -1,5 +1,5 @@
 :root {
-    --color0: #1f1f1f;
+    --color0: #1b1b1b;
     --color1: #1d2f38;
     --color2: #28424d;
     --color3: #ffffff;
@@ -201,16 +201,7 @@ input:focus{
 }
 #members li {
     padding-left: 10px;
-}
-
-#admin{
-    color: var(--color7);
-    background-color: var(--color6);
-    display: inline-block;
-    margin-left: -3px;
-    padding-right: 150px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+    margin-top: 5px;
 }
 
 #leaveRoom{
@@ -303,9 +294,72 @@ input:checked + .slider:before {
     background-color: white;
 }
 
+#startTimer{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-family: 'Economica', sans-serif;
+    font-size: 54px;
+    color: white;
+    display: none;
+    z-index: 9999;
+}
+
+
 #serverMsg{
     color: var(--color7);
     margin-bottom: 5px;
     background-color: var(--color6);
     margin-right: 12px;
+}
+
+#errorMsg{
+    color: var(--color7);
+    margin-bottom: 5px;
+    background-color: rgb(160, 0, 0);
+    margin-right: 12px;
+}
+
+
+#gameMsg{
+    color: var(--color7);
+    margin-bottom: 5px;
+    background-color: rgb(120, 120, 0);
+    margin-right: 12px;
+}
+
+#gameMsg{
+    color: var(--color7);
+    margin-bottom: 5px;
+    background-color: rgb(120, 120, 0);
+    margin-right: 12px;
+}
+
+
+#isAdmin{
+    color: var(--color7);
+    background-color: var(--color6);
+    margin-left: -3px;
+    margin-right: -100px;
+}
+
+#isDead{
+    color: white;
+    background-color: rgb(120,0,0);;
+    margin-left: -3px;
+    margin-right: -100px;
+}
+
+#isAlive{
+    color: white;
+    background-color: rgb(0,120,0);;
+    margin-left: -3px;
+    margin-right: -100px;
+}
+
+#agentDead{
+    color: white;
+    background-color: rgb(120, 120, 0);
+    margin-left: -3px;
+    margin-right: -100px;
 }

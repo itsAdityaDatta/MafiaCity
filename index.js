@@ -8,6 +8,8 @@ let rooms = [];
 function room(name,pass){
     this.name = name;
     this.pass = pass;
+    this.mulesCaught = 0;
+    this.numVotes = 0;
     this.players = [];
 }
 
@@ -66,7 +68,7 @@ io.on('connection', (socket)=>{
                 io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
             }
         }
-        socket.to(socket.room).emit('disconnecting2',socket.playerName);
+        io.to(socket.room).emit('disconnecting2',socket.playerName);
         console.log(socket.playerName + ' has left the room: ' + socket.room);
         socket.emit('tab');
 
@@ -79,7 +81,7 @@ io.on('connection', (socket)=>{
         console.log(socket.playerName + " has joined the room " + roomName);
         io.to(roomName).emit('createJoin', playerName);
 
-        let newRoom = new room(roomName,roomPass);
+        let newRoom = new room(roomName,roomPass,0,0);
         rooms.push(newRoom);
 
     });
@@ -94,10 +96,10 @@ io.on('connection', (socket)=>{
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == roomName){
                     if(rooms[i].players.length == 0){
-                        rooms[i].players.push({name: playerName,isAdmin: 1,isMule: 0,score: 0});
+                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 1, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0});
                     }
                     else{
-                        rooms[i].players.push({name: playerName,isAdmin: 0,isMule: 0,score: 0});
+                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 0, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0});
                     } 
                     io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
             }
@@ -134,6 +136,9 @@ io.on('connection', (socket)=>{
                     if(nameCheckFlag == 0){
                         if(room.players.length < maxPlayers){
                             socket.emit('roomExists',rName,rPass);
+                            if(room.players.length == maxPlayers-1){
+                                io.to(rName).emit('maxPlayersJoined',room.players[0].name);
+                            }
                         }
                         else{
                             socket.emit('maxPlayers',rName);
@@ -170,11 +175,71 @@ io.on('connection', (socket)=>{
                 if(nameCheckFlag == 0){
                     if(room.players.length < maxPlayers){
                         socket.emit('curRoomJoins');
+                        if(room.players.length == maxPlayers-1){
+                            io.to(rName).emit('maxPlayersJoined',room.players[0].name);
+                        }
                     }
                     else{
                         socket.emit('maxPlayers',rName);
                     }
                 }
+            }
+        });
+    });
+
+    socket.on('startTheGame',(rName,pName)=>{
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                room.players.forEach((player)=>{
+                    if(player.name == pName){
+                        if(player.isAdmin == 1){
+                            if(player.isPlaying == 0){
+                                if(room.players.length == maxPlayers){
+                                    io.to(rName).emit('startTheGame',room.players);
+                                }
+                                else{
+                                    socket.emit('notEnoughPlayers');
+                                }
+                            }
+                            else{
+                                socket.emit('gameInProgress');
+                            }
+                        }
+                        else{
+                            socket.emit('notAdmin');
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    socket.on('gameStarts',(rName)=>{
+
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                let numberOne = maxPlayers;                                         //Two random number generator
+                let numberTwo = maxPlayers; 
+                let numberThree = maxPlayers; 
+
+                do {
+                    numberOne = Math.floor(Math.random() * (maxPlayers+1));
+                } while(numberOne === numberThree);
+                do {
+                    numberTwo = Math.floor(Math.random() * (maxPlayers+1));
+                } while(numberTwo === numberThree || numberTwo === numberOne);      //Two random number generator
+               
+                room.players[numberOne].isAgent = 1;
+                room.players[numberTwo].isAgent = 1;
+
+                room.players.forEach((player)=>{
+                    player.canVote = 1;
+                    player.isPlaying = 1;
+                });
+
+                io.to(rName).emit('agents',room.players[numberOne].name,room.players[numberTwo].name);
+                io.to(rName).emit('gameSetUp');
+                io.to(rName).emit('refreshPlayersArrayGame',room.players);
             }
         });
     });
