@@ -4,12 +4,14 @@ const ejs = require('ejs');
 const socketio = require('socket.io');
 
 let rooms = [];
+let maxPlayers = 3;
 
 function room(name,pass){
     this.name = name;
     this.pass = pass;
     this.agentsCaught = 0;
     this.numVotes = 0;
+    this.numPlayersAlive = maxPlayers;
     this.agentOne = "";
     this.agentTwo = "";
     this.players = [];
@@ -122,7 +124,6 @@ io.on('connection', (socket)=>{
     });
 
 
-    let maxPlayers = 3;
     socket.on('joinRoom',(rName,rPass,pName)=>{
         let flag = 0;
         rooms.forEach(function(room){
@@ -235,6 +236,7 @@ io.on('connection', (socket)=>{
                 room.players[numberTwo].isAgent = 1;
                 room.agentsCaught = 0;
                 room.numVotes = 0;
+                room.numPlayersAlive = maxPlayers;
                 room.agentOne = room.players[numberOne].name;
                 room.agentTwo = room.players[numberTwo].name;
 
@@ -268,6 +270,54 @@ io.on('connection', (socket)=>{
                         }
                     }
                 });      
+            }
+        });
+    });
+
+    socket.on('someoneVoted',(msg,kisko,rName,pName)=>{
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                room.players.forEach((player)=>{
+                    if(player.name == pName){
+                        if(player.isPlaying == 1){
+                            if(player.isDead == 0){
+                                if(player.canVote == 1){
+                                    if(Number.isInteger(kisko) && kisko < room.players.length){
+                                        if(room.players[kisko].isPlaying == 1){
+                                            if(room.players[kisko].isDead == 0){
+                                                room.players[kisko].numVotes += 1;
+                                                player.canVote = 0;
+                                                room.numVotes += 1;
+                                                io.to(rName).emit('aPlayerVoted',room.players[kisko].name,pName);
+                                                if(room.numPlayersAlive == room.numVotes){
+                                                    io.to(rName).emit('allPlayersHaveVoted',room.players);
+                                                } 
+                                            }
+                                            else{
+                                                socket.emit('alreadyDead');
+                                            }
+                                        }
+                                        else{
+                                            socket.emit('notPlaying');
+                                        }          
+                                    }
+                                    else{
+                                        socket.emit('invalidID');
+                                    }
+                                }
+                                else{
+                                    socket.emit('cantVote');
+                                }
+                            }
+                            else{
+                                socket.emit('youreDead');
+                            }
+                        }
+                        else{
+                            io.to(rName).emit('chat message2',msg,pName);
+                        }
+                    } 
+                });
             }
         });
     });

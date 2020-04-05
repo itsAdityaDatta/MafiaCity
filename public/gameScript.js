@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             socket.emit('agentMsg',msg.substr(1),getCookie('roomName'),getCookie('playerName'));
             document.getElementById('inp1').value = '';
         }
+        else if(msg.startsWith('/vote') || msg.startsWith('/VOTE')){
+            let voteKisko = parseInt(msg.substr(5));
+            socket.emit('someoneVoted',msg,voteKisko,getCookie('roomName'),getCookie('playerName'));
+            document.getElementById('inp1').value = '';
+        }   
         else{
             var node = document.createElement("li");
             var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
@@ -204,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        //TIMER BANAAA IDHARRR
+        voteStart();
     });
 
     socket.on('refreshPlayersArrayGame',(players)=>{
@@ -253,19 +258,97 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
+    let voteInterval = null;
+    function voteStart(){
+        let timeInSeconds = timeInMinutes*60;                  
+        voteInterval = setInterval(()=>{
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('startTimer').innerHTML = timeConvert(timeInSeconds);
+            if(timeInSeconds == 0){
+                clearInterval(voteInterval);
+                // KILL THE MOST VOTED ONE AND CHECK TO SEE WINNING CONDITIONS
+                voteStart();                            // isko probably idhar se hataaa
+            }
+            timeInSeconds--;
+        },1000);
+
+    }
 
 
+    function timeConvert(n) {
+        let num = n;
+        let minutes = (num / 60);
+        let rminutes = Math.floor(minutes);
+        let seconds = (minutes - rminutes) * 60;
+        let rseconds = Math.round(seconds);
+        return rminutes + " : " + rseconds;
+    }
 
+    socket.on('invalidID',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode('ERROR: Invalid ID. Please enter a correct ID to vote out.');
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    socket.on('youreDead',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode('ERROR: You are dead and hence not allowed to vote.');
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    
+    socket.on('cantVote',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode('ERROR: You have already voted.');
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    socket.on('alreadyDead',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode("ERROR: The person you're voting for is already dead. Please vote another person out.");
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    socket.on('notPlaying',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode("ERROR: The person you're voting for is not in the game. Please vote another person out.");
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    socket.on('aPlayerVoted',(kisko,kisne)=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','gameMsg');
+        var textnode = document.createTextNode("Game: " + kisne + " voted against " + kisko);
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
 
+    socket.on('allPlayersHaveVoted',(players)=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','gameMsg');
+        var textnode = document.createTextNode("Game: All players have voted.");
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
 
-
-
-
+        //kuch kr iske bajaye
+    });
 
 
 //_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
