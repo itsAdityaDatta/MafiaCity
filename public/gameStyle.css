@@ -335,6 +335,12 @@ input:checked + .slider:before {
     margin-right: 12px;
 }
 
+#agentMsg{
+    color: var(--color7);
+    margin-bottom: 5px;
+    background-color: rgb(0, 120, 0);
+    margin-right: 12px;
+}
 
 #isAdmin{
     color: var(--color7);

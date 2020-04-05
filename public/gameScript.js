@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
            socket.emit('startTheGame',getCookie('roomName'),getCookie('playerName')); 
            document.getElementById('inp1').value = '';
         }
+        else if(msg[0] == '*'){
+            socket.emit('agentMsg',msg.substr(1),getCookie('roomName'),getCookie('playerName'));
+            document.getElementById('inp1').value = '';
+        }
         else{
             var node = document.createElement("li");
             var textnode = document.createTextNode(getCookie('playerName') + ": " + msg);
@@ -30,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             return false;
         }
-        
     }
+
     socket.on('chat message2', function(msg,playerName){
         var node = document.createElement("li");
         var textnode = document.createTextNode(playerName + ": " + msg);
@@ -72,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }        
     });
 
-    socket.on('refreshPlayersArray',(players)=>{                                // players array
+    socket.on('refreshPlayersArray',(players)=>{                                
         document.getElementById('members').innerHTML = "";
         players.forEach((player)=>{
             var node = document.createElement("li");    
@@ -103,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var textnode = document.createTextNode(msg);
             node.appendChild(textnode);
             document.getElementById("messages").appendChild(node);
-            window.scrollTo(0, document.body.scrollHeight);                                                        // work on it
+            window.scrollTo(0, document.body.scrollHeight);                                                        
         }
     });
 
@@ -228,8 +232,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
 
+    socket.on('notAnAgent',()=>{
+        var node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        var textnode = document.createTextNode('ERROR: You must be an agent to use the * chat.');
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+    }); 
 
 
+    socket.on('agentMsg2',(agentOne,agentTwo,msg,playerName)=>{
+        if(getCookie('playerName') == agentOne || getCookie('playerName') == agentTwo){
+            var node = document.createElement("li");
+            node.setAttribute('id','agentMsg');
+            var textnode = document.createTextNode(playerName + ": " + msg);
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    });
 
 
 

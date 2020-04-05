@@ -8,8 +8,10 @@ let rooms = [];
 function room(name,pass){
     this.name = name;
     this.pass = pass;
-    this.mulesCaught = 0;
+    this.agentsCaught = 0;
     this.numVotes = 0;
+    this.agentOne = "";
+    this.agentTwo = "";
     this.players = [];
 }
 
@@ -231,6 +233,10 @@ io.on('connection', (socket)=>{
                
                 room.players[numberOne].isAgent = 1;
                 room.players[numberTwo].isAgent = 1;
+                room.agentsCaught = 0;
+                room.numVotes = 0;
+                room.agentOne = room.players[numberOne].name;
+                room.agentTwo = room.players[numberTwo].name;
 
                 room.players.forEach((player)=>{
                     player.canVote = 1;
@@ -244,7 +250,27 @@ io.on('connection', (socket)=>{
         });
     });
 
+    socket.on('agentMsg',(msg,rName,playerName)=>{
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                room.players.forEach((player)=>{
+                    if(player.name == playerName){
+                        if(player.isPlaying == 1){
+                            if(player.isAgent == 1){
+                                io.to(rName).emit('agentMsg2',room.agentOne,room.agentTwo,msg,playerName);      
+                            }
+                            else{
+                                socket.emit('notAnAgent');
+                            }
+                        }
+                        else{
+                            io.to(rName).emit('chat message2',msg,playerName);
+                        }
+                    }
+                });      
+            }
+        });
+    });
+
 });
-
-
 
