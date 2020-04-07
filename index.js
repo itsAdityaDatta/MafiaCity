@@ -4,7 +4,7 @@ const ejs = require('ejs');
 const socketio = require('socket.io');
 
 let rooms = [];
-let maxPlayers = 3;
+let maxPlayers = 4;
 
 function room(name,pass){
     this.name = name;
@@ -246,7 +246,7 @@ io.on('connection', (socket)=>{
                 });
 
                 io.to(rName).emit('agents',room.players[numberOne].name,room.players[numberTwo].name);
-                io.to(rName).emit('gameSetUp');
+                io.to(rName).emit('gameSetUp',room.players[0].name);
                 io.to(rName).emit('refreshPlayersArrayGame',room.players);
             }
         });
@@ -291,6 +291,7 @@ io.on('connection', (socket)=>{
                                                 io.to(rName).emit('aPlayerVoted',room.players[kisko].name,pName);
                                                 if(room.numPlayersAlive == room.numVotes){
                                                     io.to(rName).emit('allPlayersHaveVoted',room.players);
+                                                    allPlayersVoted(room.name);
                                                 } 
                                             }
                                             else{
@@ -322,5 +323,127 @@ io.on('connection', (socket)=>{
         });
     });
 
+
+    socket.on('timeExpired',(rName)=>{
+        console.log('lol22222222222222');
+        allPlayersVoted(rName);
+    });
+
+
+    function allPlayersVoted(rName){
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                let maxNumVotes = 0;
+                let maxVotedPlayers = [];
+                room.players.forEach((player)=>{
+                    if(player.isDead == 0 && player.isPlaying == 1){
+                        if(player.numVotes > maxNumVotes){
+                            maxNumVotes = player.numVotes;
+                            maxVotedPlayers.splice(0,maxVotedPlayers.length);
+                            maxVotedPlayers.push(player.name);
+                        }
+                        else if(player.numVotes == maxNumVotes){
+                            maxVotedPlayers.push(player.name);
+                        }
+                    }
+                });
+                let playerNameEliminated = maxVotedPlayers[Math.floor(Math.random() * maxVotedPlayers.length)];
+                console.log(maxVotedPlayers);
+                console.log('max num of votes' + maxNumVotes);
+                console.log(playerNameEliminated);
+                room.numVotes = 0;
+                room.numPlayersAlive--;
+                room.players.forEach((player)=>{
+
+                    if(player.isPlaying == 1){
+                        if(player.name == playerNameEliminated){
+                            player.isDead = 1;
+                            player.canVote = 0;
+                            if(player.isAgent == 1){
+                                room.agentsCaught += 1;
+                            }
+                            io.to(rName).emit('playerEliminated',player);
+                            io.to(rName).emit('refreshPlayersArrayGame',room.players);
+                            killedPlayer(room.name);
+                        }
+                    }
+                });
+                console.log('end');
+            }
+        });
+        console.log('lol244444444422');
+    }
+
+    function killedPlayer(rName){
+        console.log('killedPlayer');
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                console.log('bhenchod');
+                if(room.numPlayersAlive == 2 && room.agentsCaught < 2){
+                    room.players.forEach((player)=>{
+                        if(player.isAgent == 1){
+                            player.score += 400;
+                        }
+                        player.isDead = 0;
+                        player.isAgent = 0;
+                        player.canVote = 1;
+                        player.numVotes = 0;
+                        player.isPlaying = 0;
+                    });
+                    room.agentsCaught = 0;
+                    room.numVotes = 0;
+                    room.numPlayersAlive = maxPlayers;
+                    room.agentOne = "";
+                    room.agentTwo = "";
+                    io.to(rName).emit('agentsWon',room.players[0].name);
+
+                }
+
+                else if(room.numPlayersAlive >= 2 && room.agentsCaught == 2){
+                    room.players.forEach((player)=>{
+                        if(player.isAgent == 0){
+                            player.score += 200;
+                        }
+                        player.isDead = 0;
+                        player.isAgent = 0;
+                        player.canVote = 1;
+                        player.numVotes = 0;
+                        player.isPlaying = 0;
+                    });
+                    room.agentsCaught = 0;
+                    room.numVotes = 0;
+                    room.numPlayersAlive = maxPlayers;
+                    room.agentOne = "";
+                    room.agentTwo = "";
+                    io.to(rName).emit('agentsLost',room.players[0].name);      
+
+                }
+
+                else{
+                    rooms.forEach((room)=>{
+                        if(room.name == rName){
+                            room.players.forEach((player)=>{
+                                if(player.isPlaying == 1 && player.isDead == 0){
+                                    player.canVote = 1;
+                                    player.numVotes = 0;
+                                } 
+                            });
+                        }
+                    });
+                    console.log('continue');
+                    io.to(rName).emit('continue',room.players[0].name);
+                }
+            }
+        });
+    }
+
+    socket.on('endGame',(rName)=>{
+        rooms.forEach((room)=>{
+            if(room.name == rName){
+                io.to(rName).emit('refreshPlayersArray',room.players);
+            }   
+        });
+    });
+    
 });
 

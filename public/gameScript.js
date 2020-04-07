@@ -199,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
    });
 
-    let timeInMinutes = 3;
-    socket.on('gameSetUp',()=>{
+    let timeInMinutes = 1;
+    socket.on('gameSetUp',(adminName)=>{
         var node = document.createElement("li");
         node.setAttribute("id",'gameMsg');
         let msg = 'Game: The game has started, there are two undercover agents among the gang. Use /vote <id> to cast your votes. You have ' + timeInMinutes + ' minutes to cast your first vote.';      
@@ -209,25 +209,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        voteStart();
+        voteStart(adminName);
     });
 
     socket.on('refreshPlayersArrayGame',(players)=>{
         document.getElementById('members').innerHTML = "";
         let id = 0;
         players.forEach((player)=>{
-            var node = document.createElement("li");    
-            if(player.isDead == 1){
-                if(player.isAgent == 1){
-                    node.setAttribute('id','agentDead');
+            var node = document.createElement("li");
+            if(player.isPlaying == 1){
+                if(player.isDead == 1){
+                    if(player.isAgent == 1){
+                        node.setAttribute('id','agentDead');
+                    }
+                    else{
+                        node.setAttribute("id","isDead");    
+                    }
                 }
-                else{
-                    node.setAttribute("id","isDead");    
+                else if(player.isDead == 0){
+                    node.setAttribute("id",'isAlive');
                 }
-            }
-            else if(player.isDead == 0){
-                node.setAttribute("id",'isAlive');
-            }
+            }    
+            
             var msg  = id + " " + player.name + " " +  player.isDead + " " + player.isAdmin + " " + player.isAgent + " " + player.score + " " + player.canVote + " " + player.numVotes + " " + player.isPlaying;
             var textnode = document.createTextNode(msg);
             node.appendChild(textnode);
@@ -259,15 +262,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     let voteInterval = null;
-    function voteStart(){
+    function voteStart(adminName){
         let timeInSeconds = timeInMinutes*60;                  
         voteInterval = setInterval(()=>{
             document.getElementById('startTimer').style.display = 'inline-block';
             document.getElementById('startTimer').innerHTML = timeConvert(timeInSeconds);
             if(timeInSeconds == 0){
                 clearInterval(voteInterval);
-                // KILL THE MOST VOTED ONE AND CHECK TO SEE WINNING CONDITIONS
-                voteStart();                            // isko probably idhar se hataaa
+
+                var node = document.createElement("li");
+                node.setAttribute('id','agentMsg');
+                var textnode = document.createTextNode('Game: The time to vote has expired.');
+                node.appendChild(textnode);
+                document.getElementById("messages").appendChild(node);
+                window.scrollTo(0, document.body.scrollHeight);
+                if(getCookie('playerName') == adminName){
+                    socket.emit('timeExpired',getCookie('roomName'));
+                }
             }
             timeInSeconds--;
         },1000);
@@ -341,13 +352,88 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('allPlayersHaveVoted',(players)=>{
         var node = document.createElement("li");
-        node.setAttribute('id','gameMsg');
+        node.setAttribute('id','agentMsg');
         var textnode = document.createTextNode("Game: All players have voted.");
         node.appendChild(textnode);
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        //kuch kr iske bajaye
+        clearInterval(voteInterval);
+    });
+
+    socket.on('playerEliminated',(player,maxNumVotes)=>{
+        let node = document.createElement("li");
+        node.setAttribute('id','errorMsg');
+        if(player.isAgent == 1){
+            let textnode = document.createTextNode("Game: " + player.name + " was voted out with "+ player.numVotes + " votes. He was an undercover agent." );
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else{
+            let textnode = document.createTextNode("Game: " + player.name + " was voted out with " + player.numVotes+ " votes. He was a gang member." );
+            node.appendChild(textnode);
+            document.getElementById("messages").appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        clearInterval(voteInterval);   
+    });
+
+    let gameStartInterval = null;
+    socket.on('agentsWon',(pName)=>{
+        let node = document.createElement("li");
+        node.setAttribute('id','agentMsg');
+        let textnode = document.createTextNode("Game: The agents have Won the game. The mafia gang has been destroyed." );
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
+        let timeBeforeAnotherGame = 5;
+        clearInterval(voteInterval);
+        document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+
+        gameStartInterval = setInterval(()=>{
+            document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+            if(timeBeforeAnotherGame == 0){
+                clearInterval(gameStartInterval);
+                document.getElementById('startTimer').style.display = "none";
+                if(getCookie('playerName') == pName){
+                    socket.emit('endGame',getCookie('roomName'));
+                }
+            }
+            timeBeforeAnotherGame--;
+        },1000);
+
+    });
+
+    socket.on('agentsLost',(pName)=>{
+        let node = document.createElement("li");
+        node.setAttribute('id','agentMsg');
+        let textnode = document.createTextNode("Game: The agents have Lost the game. Both of the undercover agents were identified and killed." );
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
+        let timeBeforeAnotherGame = 5;
+        clearInterval(voteInterval);
+        document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+
+        gameStartInterval = setInterval(()=>{
+            clearInterval(voteInterval);
+            document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+            if(timeBeforeAnotherGame == 0){
+                clearInterval(gameStartInterval);
+                document.getElementById('startTimer').style.display = "none";
+                if(getCookie('playerName') == pName){
+                    socket.emit('endGame',getCookie('roomName'));
+                }
+            }
+            timeBeforeAnotherGame--;
+        },1000);    
+    });
+
+    socket.on('continue',(adminName)=>{
+        voteStart(adminName);
     });
 
 
