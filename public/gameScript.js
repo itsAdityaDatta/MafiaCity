@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
    });
 
-    let timeInMinutes = 1;
+    let timeInMinutes = 3;
     socket.on('gameSetUp',(adminName)=>{
         var node = document.createElement("li");
         node.setAttribute("id",'gameMsg');
