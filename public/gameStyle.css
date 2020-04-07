@@ -371,3 +371,14 @@ input:checked + .slider:before {
     margin-left: -3px;
     margin-right: -100px;
 }
+
+canvas {
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999999999999;
+    pointer-events: none;
+  }
+  
