@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
    });
 
-    let timeInMinutes = 3;
+    let timeInMinutes = 5;
     socket.on('gameSetUp',(adminName)=>{
         var node = document.createElement("li");
         node.setAttribute("id",'gameMsg');
@@ -365,13 +365,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         let node = document.createElement("li");
         node.setAttribute('id','errorMsg');
         if(player.isAgent == 1){
-            let textnode = document.createTextNode("Game: " + player.name + " was voted out with "+ player.numVotes + " votes. He was an undercover agent." );
+            let textnode = document.createTextNode("Game: " + player.name + " was voted out with "+ player.numVotes + " votes. He/she was an undercover agent." );
             node.appendChild(textnode);
             document.getElementById("messages").appendChild(node);
             window.scrollTo(0, document.body.scrollHeight);
         }
         else{
-            let textnode = document.createTextNode("Game: " + player.name + " was voted out with " + player.numVotes+ " votes. He was a gang member." );
+            let textnode = document.createTextNode("Game: " + player.name + " was voted out with " + player.numVotes+ " votes. He/she was a gang member." );
             node.appendChild(textnode);
             document.getElementById("messages").appendChild(node);
             window.scrollTo(0, document.body.scrollHeight);
@@ -383,12 +383,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     socket.on('agentsWon',(pName)=>{
         let node = document.createElement("li");
         node.setAttribute('id','agentMsg');
-        let textnode = document.createTextNode("Game: The agents have Won the game. The mafia gang has been destroyed." );
+        let textnode = document.createTextNode("Game: The agents have WON the game. The mafia gang has been destroyed." );
         node.appendChild(textnode);
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        let timeBeforeAnotherGame = 5;
+        let timeBeforeAnotherGame = 10;
         SetGlobals();
         InitializeConfetti();
 
@@ -414,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     socket.on('agentsLost',(pName)=>{
         let node = document.createElement("li");
         node.setAttribute('id','agentMsg');
-        let textnode = document.createTextNode("Game: The agents have Lost the game. Both of the undercover agents were identified and killed." );
+        let textnode = document.createTextNode("Game: The agents have LOST the game. Both of the undercover agents were identified and killed." );
         node.appendChild(textnode);
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
@@ -427,7 +427,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
 
         gameStartInterval = setInterval(()=>{
-            clearInterval(voteInterval);
             document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
             if(timeBeforeAnotherGame == 0){
                 DeactivateConfetti()
@@ -446,7 +445,70 @@ document.addEventListener("DOMContentLoaded", function(event) {
         voteStart(adminName);
     });
 
+    socket.on('agentsWon2',(pName)=>{
+        let node = document.createElement("li");
+        node.setAttribute('id','agentMsg');
+        let textnode = document.createTextNode("Game: The agents have WON the game since one of the gang members left the room mid-game." );
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
 
+        let timeBeforeAnotherGame = 10;
+        SetGlobals();
+        InitializeConfetti();
+
+        clearInterval(voteInterval);
+        document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+
+        gameStartInterval = setInterval(()=>{
+            document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+            if(timeBeforeAnotherGame == 0){
+                DeactivateConfetti();
+                
+                clearInterval(gameStartInterval);
+                document.getElementById('startTimer').style.display = "none";
+                if(getCookie('playerName') == pName){
+                    socket.emit('endGame',getCookie('roomName'));
+                }
+            }
+            timeBeforeAnotherGame--;
+        },1000);
+
+    });
+
+    socket.on('agentsLost2',(pName)=>{
+        let node = document.createElement("li");
+        node.setAttribute('id','agentMsg');
+        let textnode = document.createTextNode("Game: The agents have LOST the game since one of the agents left the room mid-game." );
+        node.appendChild(textnode);
+        document.getElementById("messages").appendChild(node);
+        window.scrollTo(0, document.body.scrollHeight);
+
+        let timeBeforeAnotherGame = 5;
+        SetGlobals();
+        InitializeConfetti();
+
+        clearInterval(voteInterval);
+        document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+
+        gameStartInterval = setInterval(()=>{
+            document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
+            if(timeBeforeAnotherGame == 0){
+                DeactivateConfetti()
+
+                clearInterval(gameStartInterval);
+                document.getElementById('startTimer').style.display = "none";
+                if(getCookie('playerName') == pName){
+                    socket.emit('endGame',getCookie('roomName'));
+                }
+            }
+            timeBeforeAnotherGame--;
+        },1000);    
+    });
+
+    socket.on('continue',(adminName)=>{
+        voteStart(adminName);
+    });
 //_____________________________________________________COOKIE FUNCTIONS ______________________________________________________________________
 
 

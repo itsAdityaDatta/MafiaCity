@@ -56,26 +56,74 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('disconnecting', (reason) => {
-        for(let i=0;i<rooms.length;i++){
-            if(rooms[i].name == socket.room){
-                for(let j=0;j<rooms[i].players.length;j++){
-                    if(rooms[i].players[j].name == socket.playerName){
-                        if(rooms[i].players[j].isAdmin == 1){
-                            if(rooms[i].players.length!= 1){
-                                io.to(rooms[i].name).emit('adminChange',rooms[i].players[1].name);
-                                rooms[i].players[1].isAdmin = 1;
+        rooms.forEach((room)=>{
+            if(room.name == socket.room){
+                let k = -1;
+                room.players.forEach((player)=>{
+                    k++;
+                    if(player.name == socket.playerName){
+                        let j = k;
+                        if(player.isAdmin == 1){
+                            if(room.players.length!= 1){
+                                io.to(room.name).emit('adminChange',room.players[1].name);
+                                room.players[1].isAdmin = 1;
                             }                  
                         }
-                        rooms[i].players.splice(j,1);
+                        room.players.splice(j,1);
+                        if(player.isPlaying == 0){                            
+                            io.to(room.name).emit('refreshPlayersArrayGame',room.players);
+                        }
+                        else{
+                            if(player.isDead == 1){
+                                io.to(room.name).emit('refreshPlayersArrayGame',room.players);
+                            }
+                            else{
+                                if(player.isAgent == 0){
+                                    room.players.forEach((player)=>{
+                                        if(player.isAgent == 1){
+                                            player.score += 400;
+                                        }
+                                        player.isDead = 0;
+                                        player.isAgent = 0;
+                                        player.canVote = 1;
+                                        player.numVotes = 0;
+                                        player.isPlaying = 0;
+                                    });
+                                    room.agentsCaught = 0;
+                                    room.numVotes = 0;
+                                    room.numPlayersAlive = maxPlayers;
+                                    room.agentOne = "";
+                                    room.agentTwo = "";
+                                    io.to(room.name).emit('agentsWon2',room.players[0].name);
+                                }
+
+                                else{
+                                    room.players.forEach((player)=>{
+                                        if(player.isAgent == 0){
+                                            player.score += 200;
+                                        }
+                                        player.isDead = 0;
+                                        player.isAgent = 0;
+                                        player.canVote = 1;
+                                        player.numVotes = 0;
+                                        player.isPlaying = 0;
+                                    });
+                                    room.agentsCaught = 0;
+                                    room.numVotes = 0;
+                                    room.numPlayersAlive = maxPlayers;
+                                    room.agentOne = "";
+                                    room.agentTwo = "";
+                                    io.to(room.name).emit('agentsLost2',room.players[0].name);  
+                                }
+                            }
+                        }
                     }
-                }
-                io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
+                });
             }
-        }
+        });
         io.to(socket.room).emit('disconnecting2',socket.playerName);
         console.log(socket.playerName + ' has left the room: ' + socket.room);
         socket.emit('tab');
-
     });
 
     socket.on('createRoomJoin',(roomName,roomPass,playerName)=>{
@@ -105,7 +153,7 @@ io.on('connection', (socket)=>{
                     else{
                         rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 0, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0});
                     } 
-                    io.to(rooms[i].name).emit('refreshPlayersArray',rooms[i].players);
+                    io.to(rooms[i].name).emit('refreshPlayersArrayGame',rooms[i].players);
             }
         }
     });
@@ -325,7 +373,6 @@ io.on('connection', (socket)=>{
 
 
     socket.on('timeExpired',(rName)=>{
-        console.log('lol22222222222222');
         allPlayersVoted(rName);
     });
 
@@ -368,17 +415,13 @@ io.on('connection', (socket)=>{
                         }
                     }
                 });
-                console.log('end');
             }
         });
-        console.log('lol244444444422');
     }
 
     function killedPlayer(rName){
-        console.log('killedPlayer');
         rooms.forEach((room)=>{
             if(room.name == rName){
-                console.log('bhenchod');
                 if(room.numPlayersAlive == 2 && room.agentsCaught < 2){
                     room.players.forEach((player)=>{
                         if(player.isAgent == 1){
@@ -430,7 +473,6 @@ io.on('connection', (socket)=>{
                             });
                         }
                     });
-                    console.log('continue');
                     io.to(rName).emit('continue',room.players[0].name);
                 }
             }
