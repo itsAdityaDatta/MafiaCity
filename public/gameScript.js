@@ -263,6 +263,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     let voteInterval = null;
     function voteStart(adminName){
+        
+        clearInterval(voteInterval);
         let timeInSeconds = timeInMinutes*60;                  
         voteInterval = setInterval(()=>{
             document.getElementById('startTimer').style.display = 'inline-block';
@@ -391,6 +393,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         let timeBeforeAnotherGame = 10;
         SetGlobals();
         InitializeConfetti();
+        RestartConfetti();
 
         clearInterval(voteInterval);
         document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
@@ -419,9 +422,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        let timeBeforeAnotherGame = 5;
+        let timeBeforeAnotherGame = 10;
         SetGlobals();
         InitializeConfetti();
+        RestartConfetti();
 
         clearInterval(voteInterval);
         document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
@@ -429,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         gameStartInterval = setInterval(()=>{
             document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
             if(timeBeforeAnotherGame == 0){
-                DeactivateConfetti()
+                DeactivateConfetti();
 
                 clearInterval(gameStartInterval);
                 document.getElementById('startTimer').style.display = "none";
@@ -456,6 +460,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         let timeBeforeAnotherGame = 10;
         SetGlobals();
         InitializeConfetti();
+        RestartConfetti();
 
         clearInterval(voteInterval);
         document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
@@ -484,9 +489,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("messages").appendChild(node);
         window.scrollTo(0, document.body.scrollHeight);
 
-        let timeBeforeAnotherGame = 5;
+        let timeBeforeAnotherGame = 10;
         SetGlobals();
         InitializeConfetti();
+        RestartConfetti();
 
         clearInterval(voteInterval);
         document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
@@ -494,7 +500,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         gameStartInterval = setInterval(()=>{
             document.getElementById('startTimer').innerHTML = timeBeforeAnotherGame;
             if(timeBeforeAnotherGame == 0){
-                DeactivateConfetti()
+                DeactivateConfetti();
 
                 clearInterval(gameStartInterval);
                 document.getElementById('startTimer').style.display = "none";

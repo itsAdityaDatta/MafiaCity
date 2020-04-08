@@ -4,7 +4,7 @@ const ejs = require('ejs');
 const socketio = require('socket.io');
 
 let rooms = [];
-let maxPlayers = 6;
+let maxPlayers = 4;
 
 function room(name,pass){
     this.name = name;
