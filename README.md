@@ -5,6 +5,7 @@ You and your partner, as agents of the Italian DIA (Direzione Investigativa Anti
 
 
 How To Play:
+
 Mafia city is a 6-player text-based voting game. The game starts when all 6 players have joined and the admin executes the /start command.
 Upon starting, 2 players out of the total 6, will be randomly assigned as undercover agents. The agents will get to know who the other agent is but none of the other players will know who's who.
 Agents can talk to each other (privately) using * before their message.
