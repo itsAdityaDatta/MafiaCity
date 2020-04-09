@@ -82,16 +82,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     socket.on('refreshPlayersArray',(players)=>{                                
-        document.getElementById('members').innerHTML = "";
+        document.getElementById('members').innerHTML = "";                    
+        document.getElementById('memberScore').innerHTML = "";
         players.forEach((player)=>{
             var node = document.createElement("li");    
             if(player.isAdmin == 1){
                 node.setAttribute("id","isAdmin");
             }
-            var msg  = player.name + " " +  player.isDead + " " + player.isAdmin + " " + player.isAgent + " " + player.score + " " + player.canVote + " " + player.numVotes + " " + player.isPlaying;
+            var msg  = player.name;
             var textnode = document.createTextNode(msg);
             node.appendChild(textnode);
             document.getElementById("members").appendChild(node);
+            
+            var node2 = document.createElement("li");  
+            if(player.isAdmin == 1){
+                node2.setAttribute("id","isAdmin");
+            }
+            var msg2  = player.score;
+            var textnode2 = document.createTextNode(msg2);
+            node2.appendChild(textnode2);
+            document.getElementById("memberScore").appendChild(node2);
         });
     });
 
@@ -213,10 +223,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     socket.on('refreshPlayersArrayGame',(players)=>{
-        document.getElementById('members').innerHTML = "";
+        document.getElementById('members').innerHTML = "";                    
+        document.getElementById('memberScore').innerHTML = "";
         let id = 0;
         players.forEach((player)=>{
             var node = document.createElement("li");
+            var node2 = document.createElement("li");  
             if(player.isPlaying == 1){
                 if(player.isDead == 1){
                     if(player.isAgent == 1){
@@ -229,13 +241,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else if(player.isDead == 0){
                     node.setAttribute("id",'isAlive');
                 }
-            }    
+            } 
+            else if(player.isPlaying == 0){
+                if(player.isAdmin == 1){
+                    node.setAttribute("id","isAdmin");
+                    node2.setAttribute('id','isAdmin');
+                }
+            }
             
-            var msg  = id + " " + player.name + " " +  player.isDead + " " + player.isAdmin + " " + player.isAgent + " " + player.score + " " + player.canVote + " " + player.numVotes + " " + player.isPlaying;
+            var msg  = id + " " + player.name;
             var textnode = document.createTextNode(msg);
             node.appendChild(textnode);
             document.getElementById("members").appendChild(node);
             id++;
+
+            var msg2  = player.score;
+            var textnode2 = document.createTextNode(msg2);
+            node2.appendChild(textnode2);
+            document.getElementById("memberScore").appendChild(node2);
         });
     });
 
@@ -559,7 +582,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
            else{
                while(1){
-                    alert('A tab is already opened.\nIf it is not, please restart your browser.');
+                    alert('Another tab is already opened.\nIf it is not, please restart your browser.');
                }
            } 
         }

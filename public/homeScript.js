@@ -174,7 +174,7 @@ function checkCookie() {
         }
         else{
             while(1){
-                alert('A tab is already opened.\nIf it is not, please restart your browser.');
+                alert('Another tab is already opened.\nIf it is not, please restart your browser.');
             }
         }
         

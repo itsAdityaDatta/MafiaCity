@@ -131,6 +131,8 @@ input:focus{
 
 button{
     width: 35%;
+    overflow: hidden;
+    white-space:nowrap;
     margin-top: 10px;
     font-family: 'Abel';
     font-size: 18px;
