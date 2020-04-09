@@ -1,7 +1,7 @@
 let socket = io();
 
 document.addEventListener("DOMContentLoaded", function(event) {  
-
+    
     checkCookie();
 
     document.fonts.ready.then(function () {
@@ -218,3 +218,18 @@ function switchTheme(e) {
 }
 
 toggleSwitch.addEventListener('change', switchTheme, false);
+
+//______________________________________________________________INSTRUCTIONS ________________________________________________________________
+
+let hamB = 0;
+function myFunction(x) {
+    x.classList.toggle("change");
+    if(hamB == 0){
+        hamB = 1;
+        document.getElementById('header').style.height = '110vh';
+    }
+    else{
+        hamB = 0;
+        document.getElementById('header').style.height = '76px';
+    }
+}

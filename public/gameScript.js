@@ -233,13 +233,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 if(player.isDead == 1){
                     if(player.isAgent == 1){
                         node.setAttribute('id','agentDead');
+                        node2.setAttribute('id','agentDead');
                     }
                     else{
-                        node.setAttribute("id","isDead");    
+                        node.setAttribute("id","isDead");  
+                        node2.setAttribute("id","isDead");   
                     }
                 }
                 else if(player.isDead == 0){
                     node.setAttribute("id",'isAlive');
+                    node2.setAttribute("id",'isAlive');
                 }
             } 
             else if(player.isPlaying == 0){

@@ -8,10 +8,11 @@
     --color6: rgb(29, 67, 82);
     --color7: white;
     --color8: #1d2f38;
+    --color9: #1b1b1b;
 }
 
 [data-theme="light"] {
-    --color0: #edece8;
+    --color0: #ffffff;
 	--color1: #b74756 ;
 	--color2: #050505;
 	--color3: black;
@@ -19,7 +20,8 @@
     --color5: #1b1b1b;
     --color6: #b2022f;
     --color7: #ffffff;
-	--color8: #b74756 ;
+    --color8: #b74756 ;
+    --color9: #f5f5f5;
 }
 
 [data-theme="other"] {
@@ -61,6 +63,9 @@ body{
     text-align: center;
     z-index: 100;
     cursor: default;
+    transition: height 1.5s;
+    height: 76px;
+    overflow: hidden;
 }
 
 .container{
@@ -68,7 +73,7 @@ body{
 }
 
 .subC1{
-    width: 40%;
+    width: 50%;
     height: 100%;
     margin-top: 85px;
     padding-left: 15px;
@@ -77,6 +82,7 @@ body{
     left: 50%;
     float: left;
     color: var(--color3);
+    background-color: var(--color9);
 }
 .divider{
     border-right: 2px solid var(--color4);
@@ -110,7 +116,7 @@ body{
 }
 
 .input2{
-    width: 100%;
+    width: 80%;
     font-family: 'Abel';
     font-size: 18px;
     margin-top: 10px;
@@ -130,7 +136,7 @@ input:focus{
 }
 
 button{
-    width: 35%;
+    width: 28%;
     overflow: hidden;
     white-space:nowrap;
     margin-top: 10px;
@@ -146,7 +152,7 @@ button{
 #joinCurRoom{
     margin-left: 5px;
     height: 37px;
-    width: 50%;
+    width: 40%;
     overflow: hidden;
 }
 
@@ -256,7 +262,7 @@ input:focus{
     align-items: center;
     z-index: 110;
     position: fixed;
-    left: 10px;
+    left: 20px;
     top: 20px;
 }
 
@@ -332,3 +338,48 @@ input:checked + .slider:before {
     width: 100%;
     border-top: 2px solid var(--color4);
 }
+
+.hamburger {
+    display: inline-block;
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+  }
+  
+  .bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  
+  .change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+  }
+  
+  .change .bar2 {opacity: 0;}
+  
+  .change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+  }
+
+hr{
+    width: 1000%;
+    transform: translateX(-200px);
+    background-color: #bbe1fa;
+    border-top: 1px solid #bbe1fa;
+}
+
+  .instructions{
+      font-family: 'Abel';
+      color: white;
+      font-size: 20px;
+      z-index: 101;
+      text-align: justify;
+      padding: 20px;
+  }
