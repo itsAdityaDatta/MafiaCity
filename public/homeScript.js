@@ -227,9 +227,11 @@ function myFunction(x) {
     if(hamB == 0){
         hamB = 1;
         document.getElementById('header').style.height = '110vh';
+        document.getElementById('header').style.borderBottom = '10px solid var(--color4)';
     }
     else{
         hamB = 0;
         document.getElementById('header').style.height = '76px';
+        document.getElementById('header').style.borderBottom = '2px solid var(--color4)'
     }
 }

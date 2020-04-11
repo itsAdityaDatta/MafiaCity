@@ -63,7 +63,7 @@ body{
     text-align: center;
     z-index: 100;
     cursor: default;
-    transition: height 1.5s;
+    transition: height 1s;
     height: 76px;
     overflow: hidden;
 }
