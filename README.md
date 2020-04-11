@@ -19,3 +19,22 @@ In case an agent leaves the room mid-game and if he's alive, the game ends immed
 In case a gang member leaves the room mid-game and if he's alive, the game ends immediately and the agents win the round (get 400 points)
 
 Stuck on something? something won't work? Don't worry, this site uses cookies, just restart your browser and everything will be back to normal.
+
+
+FEATURES : 
+
+1. No two rooms of the same name can be created.
+2. A room cannot have 2 players with the same name.
+3. Admin system, if one player disconnects/leaves a room, automatically the next person becomes the admin
+4. Global chat system, room chat system
+5. Personal chat system in room (between agents)
+6. Single Tab System - A person cannot open the website in two tabs at once (like netflix) (done using sessionStorage and cookies)
+7. Dark and light themes. A user's preffered theme is stored in localStorage and is saved forever.
+   GAME-ALGORITHM:
+8. Voting (/vote <id>) system
+9. Confetti when game ends.
+10. Scoring system.
+11. Took care of all the corner cases of all the above points.
+  
+TO DOs-
+1. Add emoji picker to text-input
