@@ -382,7 +382,7 @@ hr{
       font-size: 20px;
       z-index: 101;
       text-align: justify;
-      transform: translateY(16px);
+      transform: translateY(6px);
       padding: 20px;
       padding-top: 0px;
       background-color: var(--color5);
