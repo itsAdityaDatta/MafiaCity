@@ -63,7 +63,8 @@ body{
     text-align: center;
     z-index: 100;
     cursor: default;
-    transition: height 1s;
+    transition: height 0.3s ease-in-out;
+    -webkit-transition: height 0.3s ease-in-out;
     height: 76px;
     overflow: hidden;
 }
@@ -370,7 +371,7 @@ input:checked + .slider:before {
 
 hr{
     width: 1000%;
-    transform: translateX(-200px);
+    transform: translateX(-240px);
     background-color: #bbe1fa;
     border-top: 1px solid #bbe1fa;
 }
@@ -381,5 +382,29 @@ hr{
       font-size: 20px;
       z-index: 101;
       text-align: justify;
+      transform: translateY(16px);
       padding: 20px;
+      padding-top: 0px;
+      background-color: var(--color5);
+      padding-bottom: 1000px;
+  }
+
+  #matter{
+      border: 2px solid white;
+      padding: 20px;
+      padding-top: 30px;
+      transform: translateY(-70px);
+      position: relative;
+      background-color: var(--color5);
+  }
+
+  #howTo{
+    position: relative;
+    font-size: 40px;
+    margin-left: 20px;
+    background-color: var(--color5);
+    display: inline-block;
+    font-family: 'Economica', sans-serif;
+    z-index: 104;
+    transform: translateY(-20px);
   }
