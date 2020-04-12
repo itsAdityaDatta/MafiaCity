@@ -4,7 +4,7 @@ const ejs = require('ejs');
 const socketio = require('socket.io');
 
 let rooms = [];
-let maxPlayers = 6;
+let maxPlayers = 4;
 
 function room(name,pass){
     this.name = name;
@@ -48,7 +48,15 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('chat message', function(msg,roomName,playerName){
-        socket.broadcast.to(roomName).emit('chat message2', msg, playerName);
+        rooms.forEach((room)=>{
+            if(room.name == roomName){
+                room.players.forEach((player)=>{
+                    if(player.name == playerName){
+                        socket.broadcast.to(roomName).emit('chat message2', msg, playerName,player.color);
+                    }
+                });
+            }
+        })
     }); 
     
     socket.on('global chat message',function(msg,playerName){
@@ -78,11 +86,9 @@ io.on('connection', (socket)=>{
                                 io.to(room.name).emit('refreshPlayersArrayGame',room.players);
                             }
                             else{
-                                if(player.isAgent == 0){
+                                if(room.agentOne == "" && room.agentTwo == ""){
+                                    io.to(room.name).emit('clearTimers');
                                     room.players.forEach((player)=>{
-                                        if(player.isAgent == 1){
-                                            player.score += 400;
-                                        }
                                         player.isDead = 0;
                                         player.isAgent = 0;
                                         player.canVote = 1;
@@ -94,27 +100,49 @@ io.on('connection', (socket)=>{
                                     room.numPlayersAlive = maxPlayers;
                                     room.agentOne = "";
                                     room.agentTwo = "";
-                                    io.to(room.name).emit('agentsWon2',room.players[0].name);
+                                    io.to(room.name).emit('refreshPlayersArrayGame',room.players);
                                 }
-
                                 else{
-                                    room.players.forEach((player)=>{
-                                        if(player.isAgent == 0){
-                                            player.score += 200;
-                                        }
-                                        player.isDead = 0;
-                                        player.isAgent = 0;
-                                        player.canVote = 1;
-                                        player.numVotes = 0;
-                                        player.isPlaying = 0;
-                                    });
-                                    room.agentsCaught = 0;
-                                    room.numVotes = 0;
-                                    room.numPlayersAlive = maxPlayers;
-                                    room.agentOne = "";
-                                    room.agentTwo = "";
-                                    io.to(room.name).emit('agentsLost2',room.players[0].name);  
+                                    if(player.isAgent == 0){
+                                        room.players.forEach((player)=>{
+                                            if(player.isAgent == 1){
+                                                player.score += 400;
+                                            }
+                                            player.isDead = 0;
+                                            player.isAgent = 0;
+                                            player.canVote = 1;
+                                            player.numVotes = 0;
+                                            player.isPlaying = 0;
+                                        });
+                                        room.agentsCaught = 0;
+                                        room.numVotes = 0;
+                                        room.numPlayersAlive = maxPlayers;
+                                        room.agentOne = "";
+                                        room.agentTwo = "";
+                                        io.to(room.name).emit('agentsWon2',room.players[0].name);
+                                    }
+    
+                                    else if(player.isAgent == 1){
+                                        room.players.forEach((player)=>{
+                                            if(player.isAgent == 0){
+                                                player.score += 200;
+                                            }
+                                            player.isDead = 0;
+                                            player.isAgent = 0;
+                                            player.canVote = 1;
+                                            player.numVotes = 0;
+                                            player.isPlaying = 0;
+                                            player.color = -1;
+                                        });
+                                        room.agentsCaught = 0;
+                                        room.numVotes = 0;
+                                        room.numPlayersAlive = maxPlayers;
+                                        room.agentOne = "";
+                                        room.agentTwo = "";
+                                        io.to(room.name).emit('agentsLost2',room.players[0].name);  
+                                    }
                                 }
+                                
                             }
                         }
                     }
@@ -148,10 +176,10 @@ io.on('connection', (socket)=>{
         for(let i=0;i<rooms.length;i++){
             if(rooms[i].name == roomName){
                     if(rooms[i].players.length == 0){
-                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 1, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0});
+                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 1, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0, color: -1});
                     }
                     else{
-                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 0, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0});
+                        rooms[i].players.push({name: playerName, isDead: 0, isAdmin: 0, isAgent: 0, score: 0, canVote : 0, numVotes : 0, isPlaying : 0, color: -1});
                     } 
                     io.to(rooms[i].name).emit('refreshPlayersArrayGame',rooms[i].players);
             }
@@ -246,6 +274,10 @@ io.on('connection', (socket)=>{
                         if(player.isAdmin == 1){
                             if(player.isPlaying == 0){
                                 if(room.players.length == maxPlayers){
+                                    
+                                    room.players.forEach((player)=>{
+                                        player.isPlaying = 1;
+                                    });
                                     io.to(rName).emit('startTheGame',room.players);
                                 }
                                 else{
@@ -287,10 +319,12 @@ io.on('connection', (socket)=>{
                 room.numPlayersAlive = maxPlayers;
                 room.agentOne = room.players[numberOne].name;
                 room.agentTwo = room.players[numberTwo].name;
-
+                
+                let color = 0;
                 room.players.forEach((player)=>{
                     player.canVote = 1;
-                    player.isPlaying = 1;
+                    player.color = color;
+                    color++;
                 });
 
                 io.to(rName).emit('agents',room.players[numberOne].name,room.players[numberTwo].name);
@@ -432,6 +466,7 @@ io.on('connection', (socket)=>{
                         player.canVote = 1;
                         player.numVotes = 0;
                         player.isPlaying = 0;
+                        player.color = -1;
                     });
                     room.agentsCaught = 0;
                     room.numVotes = 0;
@@ -452,6 +487,7 @@ io.on('connection', (socket)=>{
                         player.canVote = 1;
                         player.numVotes = 0;
                         player.isPlaying = 0;
+                        player.color = -1;
                     });
                     room.agentsCaught = 0;
                     room.numVotes = 0;

@@ -7,6 +7,13 @@
     --color5: #192329;
     --color6: rgb(29, 67, 82);
     --color7: white;
+
+    --text0: rgb(255, 81, 13);
+    --text1: rgb(150, 126, 255);
+    --text2: #83eaff;
+    --text3: rgb(255, 255, 0);
+    --text4: rgb(0,255,0);
+    --text5: rgb(251, 126, 255);
 }
 
 
@@ -30,7 +37,14 @@
     --color5: #1b1b1b;
     --color6: #b2022f;
     --color7: #ffffff;
-	--color8: #b74756 ;
+    --color8: #b74756;
+    
+    --text0: rgb(255, 81, 13);
+    --text1: rgb(150, 126, 255);
+    --text2: #83eaff;
+    --text3: rgb(255, 255, 0);
+    --text4: rgb(0,255,0);
+    --text5: rgb(251, 126, 255);
 }
 
 body{
@@ -405,3 +419,22 @@ canvas {
     pointer-events: none;
   }
   
+
+#color0{
+    color: var(--text0);
+}
+#color1{
+    color: var(--text1);
+}
+#color2{
+    color: var(--text2);
+}
+#color3{
+    color: var(--text3);
+}
+#color4{
+    color: var(--text4);
+}
+#color5{
+    color: var(--text5);
+}

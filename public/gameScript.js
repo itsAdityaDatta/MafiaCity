@@ -41,8 +41,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    socket.on('chat message2', function(msg,playerName){
+    socket.on('chat message2', function(msg,playerName,color){
         var node = document.createElement("li");
+        let colorScheme = 'color' + color;
+        node.setAttribute("id",colorScheme);
         var textnode = document.createTextNode(playerName + ": " + msg);
         node.appendChild(textnode);
         document.getElementById("messages").appendChild(node);
@@ -164,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 // _____________________________________________________________GAME ALGORITHM_________________________________________________________________
   
-
+    let startInterval = null;
     socket.on('startTheGame',(players)=>{
         var node = document.createElement("li");
         node.setAttribute("id",'errorMsg');
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.scrollTo(0, document.body.scrollHeight);
     
         count = 11; 
-        let startInterval = setInterval(function(){
+        startInterval = setInterval(function(){
             count--;
             document.getElementById('startTimer').style.display = 'inline-block';
             document.getElementById('startTimer').innerHTML = count;
@@ -285,6 +287,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.getElementById("messages").appendChild(node);
             window.scrollTo(0, document.body.scrollHeight);
         }
+    });
+
+    socket.on('clearTimers',()=>{
+        clearInterval(startInterval);
+        document.getElementById('startTimer').style.display = "none";
     });
 
     let voteInterval = null;
