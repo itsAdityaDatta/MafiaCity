@@ -39,12 +39,12 @@
     --color7: #ffffff;
     --color8: #b74756;
     
-    --text0: rgb(255, 81, 13);
-    --text1: rgb(150, 126, 255);
-    --text2: #83eaff;
-    --text3: rgb(255, 255, 0);
-    --text4: rgb(0,255,0);
-    --text5: rgb(251, 126, 255);
+    --text0: black;
+    --text1: black;
+    --text2: black;
+    --text3: black;
+    --text4: black;
+    --text5: black;
 }
 
 body{
