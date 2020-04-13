@@ -64,6 +64,7 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('disconnecting', (reason) => {
+        io.to(socket.room).emit('disconnecting2',socket.playerName);
         rooms.forEach((room)=>{
             if(room.name == socket.room){
                 let k = -1;
@@ -149,7 +150,6 @@ io.on('connection', (socket)=>{
                 });
             }
         });
-        io.to(socket.room).emit('disconnecting2',socket.playerName);
         console.log(socket.playerName + ' has left the room: ' + socket.room);
         socket.emit('tab');
     });
