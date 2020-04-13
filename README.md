@@ -39,6 +39,10 @@ FEATURES :
 9. Confetti when game ends.
 10. Scoring system.
 11. Took care of all the corner cases of all the above points.
-  
+12. FIXED RATE LIMIT EXCEEDED error by hosting it from HEROKU CLI instead of from github
+   
+
 TO DOs-
 1. Add emoji picker to text-input
+
+
