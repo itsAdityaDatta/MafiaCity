@@ -221,17 +221,21 @@ toggleSwitch.addEventListener('change', switchTheme, false);
 
 //______________________________________________________________INSTRUCTIONS ________________________________________________________________
 
-let hamB = 0;
-function myFunction(x) {
+
+const menu = document.querySelector('.menu');
+const instructions = document.querySelector('.instructions');
+
+function hamb(x){
     x.classList.toggle("change");
-    if(hamB == 0){
-        hamB = 1;
-        document.getElementById('header').style.height = '110vh';
-        document.getElementById('header').style.borderBottom = '10px solid var(--color4)';
-    }
-    else{
-        hamB = 0;
-        document.getElementById('header').style.height = '76px';
-        document.getElementById('header').style.borderBottom = '2px solid var(--color4)'
-    }
-}
+   if (menu.className.indexOf('active') === -1) {
+        menu.classList.add('active');
+        setTimeout(()=>{
+            instructions.style.display = 'block';
+        },300);
+  } else {
+        menu.classList.remove('active');
+        setTimeout(()=>{
+            instructions.style.display = 'none';
+        },150);
+  }
+};

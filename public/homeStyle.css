@@ -9,6 +9,9 @@
     --color7: white;
     --color8: #1d2f38;
     --color9: #1b1b1b;
+    --color10: rgb(255, 255, 20);
+    --color11: #192329;
+    --color12: black;
 }
 
 [data-theme="light"] {
@@ -22,6 +25,9 @@
     --color7: #ffffff;
     --color8: #b74756 ;
     --color9: #f5f5f5;
+    --color10: #1b1b1b;
+    --color11: #b2022f;
+    --color12: white;
 }
 
 [data-theme="other"] {
@@ -346,7 +352,7 @@ input:checked + .slider:before {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 101;
+    z-index: 102;
   }
   
   .bar1, .bar2, .bar3 {
@@ -369,42 +375,47 @@ input:checked + .slider:before {
     transform: rotate(45deg) translate(-8px, -8px);
   }
 
-hr{
-    width: 1000%;
-    transform: translateX(-240px);
-    background-color: #bbe1fa;
-    border-top: 1px solid #bbe1fa;
-}
+
+  .nav:before {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    background: var(--color10);
+    transition: all 500ms ease-in-out;
+    clip-path: circle(0px at calc(100%) 0px);
+    visibility: hidden;
+  }
+  
+  .menu.active .nav:before {
+    visibility: visible;
+    clip-path: circle(100%);
+  }
 
   .instructions{
-      font-family: 'Abel';
-      color: white;
-      font-size: 20px;
+      display: none;
+      position: fixed;
       z-index: 101;
-      text-align: justify;
-      transform: translateY(6px);
-      padding: 20px;
-      padding-top: 0px;
-      background-color: var(--color5);
-      padding-bottom: 1000px;
+      top: 100px;
+      padding:30px;
+      font-size: 21px;
+      color: var(--color12);
   }
 
-  #matter{
-      border: 2px solid white;
-      padding: 20px;
-      padding-top: 30px;
-      transform: translateY(-70px);
-      position: relative;
-      background-color: var(--color5);
-  }
-
-  #howTo{
-    position: relative;
-    font-size: 40px;
-    margin-left: 20px;
-    background-color: var(--color5);
-    display: inline-block;
-    font-family: 'Economica', sans-serif;
-    z-index: 104;
-    transform: translateY(-20px);
+  .insHeading{
+      font-size: 50px;
+      display: inline-block;
+      font-family: 'Economica', sans-serif;
+      margin-bottom: 20px;
+      color: white;
+      background-color: var(--color11);
+      padding-right: 30%;
+      transform: translateX(-35px);
+      padding-left: 35px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
   }

@@ -597,6 +597,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
            } 
         }
     }
+    
+//_______________________________________________________________EMOJIS_________________________________________________________________
+
 
     let ebutton = document.querySelector("#emoji-button");
     let picker = new EmojiButton({ 

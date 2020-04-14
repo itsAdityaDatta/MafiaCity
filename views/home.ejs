@@ -9,29 +9,7 @@
 
     </head>
     <body id='body1'>
-        <div id='header' class='header'>
-            Mafia City
-            <div class='instructions'>
-                <hr>
-                <h1 id='howTo'>H<small>OW</small> T<small>O</small> P<small>LAY</small></h1>   
-                <div id='matter'>
-                     Mafia city is a 6-player text-based voting game. The game starts when all 6 players have joined and the admin executes the /start command.<br>
-                    Upon starting, 2 players out of the total 6, will be randomly assigned as undercover agents. The agents will get to know who the other agent is but none of the other players will know who's who.
-                    The aim of the agents is to convince the mafia gang members that they are not the agents using their wit and convincing skills and hence get the other gang members killed.<br>
-                    Players can then /vote one player per chance and the player with the most votes gets killed.<br> In the case of one or more players getting the same amount of votes, one of the players with the most votes gets killed at random.<br>
-                    1. The Mafia members win when both of the agents have been identified and killed. In this case, all of the mafia members get 200 points.<br>
-                    2. The agents win when only 2 players remain alive and atleast one of those two is an agent. In this case, both the agents get 400 points.
-                    <br><br>
-                    In case an agent leaves the room mid-game and if he's alive, the game ends immediately and the gang members win the round (get 200 points) and similarly,<br>
-                    In case a gang member leaves the room mid-game and if he's alive, the game ends immediately and the agents win the round (get 400 points)
-                    <br><br>
-                    Stuck on something? something won't work? Want to change your name to worldDestroyer69? <br>
-                    This site uses cookies, just restart your browser, and the game will reset.   
-                </div>     
-                 
-            </div>
-              
-            </div>
+        <div id='header' class='header'> Mafia City</div>
         </div> 
         <div class="theme-switch-wrapper">
             <label class="theme-switch" for="checkbox"  title="Switch Theme">
@@ -79,12 +57,32 @@
         </form>
         <div id='overlay'></div>
         <div id='footer2'></div>
-        <div class="hamburger" onclick="myFunction(this)">
+        <div class="hamburger"  onclick="hamb(this)">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
         </div>
 
+        <div class="menu">
+            <nav class="nav">
+            </nav>
+        </div>
+
+        <div class='instructions'>
+            <div class='insHeading'>How To Play</div><br>
+            Mafia city is a 6-player text-based voting game. The game starts when all 6 players have joined and the admin executes the /start command.      Upon starting, 2 players out of the total 6, will be randomly assigned as undercover agents. The agents will get to know who the other agent is but none of the other players will know who's who.
+            The aim of the agents is to convince the mafia gang members that they are not the agents using their wit and convincing skills and hence get the other gang members killed.
+            Players can then /vote one player per chance and the player with the most votes gets killed. In the case of one or more players getting the same amount of votes, one of the players with the most votes gets killed at random.<br>
+            1. The Mafia members win when both of the agents have been identified and killed. In this case, all of the mafia members get 200 points.<br>
+            2. The agents win when only 2 players remain alive and atleast one of those two is an agent. In this case, both the agents get 400 points.
+            <br><br>
+            In case an agent leaves the room mid-game and if he's alive, the game ends immediately and the gang members win the round (get 200 points) and similarly,<br>
+            In case a gang member leaves the room mid-game and if he's alive, the game ends immediately and the agents win the round (get 400 points)
+            <br><br>
+            Stuck on something? something won't work? Want to change your name to worldDestroyer69? <br>
+            This site uses cookies, just restart your browser, and the game will reset.   
+
+        </div>
         
 
         <script src="/socket.io/socket.io.js"></script>
