@@ -4,7 +4,7 @@ const ejs = require('ejs');
 const socketio = require('socket.io');
 
 let rooms = [];
-let maxPlayers = 4;
+let maxPlayers = 6;
 
 function room(name,pass){
     this.name = name;
@@ -95,6 +95,7 @@ io.on('connection', (socket)=>{
                                         player.canVote = 1;
                                         player.numVotes = 0;
                                         player.isPlaying = 0;
+                                        player.color = -1;
                                     });
                                     room.agentsCaught = 0;
                                     room.numVotes = 0;
@@ -114,6 +115,7 @@ io.on('connection', (socket)=>{
                                             player.canVote = 1;
                                             player.numVotes = 0;
                                             player.isPlaying = 0;
+                                            player.color = -1;
                                         });
                                         room.agentsCaught = 0;
                                         room.numVotes = 0;

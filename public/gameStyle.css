@@ -468,15 +468,14 @@ canvas {
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     background: #FFFFFF;
-    width: 23rem;
+    width: 10%;
     font-family: Arial, Helvetica, sans-serif;
     opacity: 0;
-    transition: opacity 0s;
     overflow: hidden;
   }
 
   .emoji-picker__tab {
-    font-size: 1.1rem;
+    font-size: 20px;
     list-style: none;
     display: flex;
     align-items: center;
@@ -487,7 +486,6 @@ canvas {
     color: #666666;
     border-radius: 3px;
     outline: none;
-    transition-duration: 0s;
     border: 1px solid transparent;
   }
 

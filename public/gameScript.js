@@ -606,7 +606,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         theme: "auto",
         autoHide: false,
         theme: 'dark',
-        showVariants: false
+        showVariants: false,
+        rootElement: document.getElementById('emo'),
     } );
     
     picker.on("emoji", function(emoji) {
