@@ -47,5 +47,7 @@ ________________________________________________________________________________
 IMAGES:
 
 ![Gameplay pic 1](https://raw.githubusercontent.com/itsAdityaDatta/MafiaCity/master/pic1.png)
+
+
 ![Gameplay pic 2](https://raw.githubusercontent.com/itsAdityaDatta/MafiaCity/master/pic2.png)
 
