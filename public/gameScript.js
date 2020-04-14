@@ -597,6 +597,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
            } 
         }
     }
+
+    let ebutton = document.querySelector("#emoji-button");
+    let picker = new EmojiButton({ 
+        theme: "auto",
+        autoHide: false,
+        theme: 'dark',
+        showVariants: false
+    } );
+    
+    picker.on("emoji", function(emoji) {
+        let text= document.querySelector("#inp1");
+        text.value+=emoji; 
+    });
+    
+    ebutton.addEventListener("click", function() {
+        picker.togglePicker(ebutton);
+    });
 });
 
 

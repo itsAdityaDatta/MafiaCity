@@ -438,3 +438,64 @@ canvas {
 #color5{
     color: var(--text5);
 }
+
+
+#emoji-button {
+	font-size: 28px;
+	cursor: pointer;
+	outline: none;
+	border: none;
+    border-left: 2px solid var(--color4);
+	background-color: transparent;
+    opacity: 0.5;
+	color: white;
+}
+
+#emoji-button:hover{
+    background-color: #777777;
+}
+
+.emo {
+	position: fixed;
+	z-index: 99999999;
+	display: inline-block;
+	bottom: 0px;
+	right: 10.75%;
+    padding: 2px 3px;
+}
+
+.emoji-picker {
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    background: #FFFFFF;
+    width: 23rem;
+    font-family: Arial, Helvetica, sans-serif;
+    opacity: 0;
+    transition: opacity 0s;
+    overflow: hidden;
+  }
+
+  .emoji-picker__tab {
+    font-size: 1.1rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    color: #666666;
+    border-radius: 3px;
+    outline: none;
+    transition-duration: 0s;
+    border: 1px solid transparent;
+  }
+
+  
+.emoji-picker__tab-body {
+    margin-top: 0.5em;
+    transform: translateX(25rem);
+    transition-duration: 0s;
+    position: absolute;
+  }
+  
