@@ -122,6 +122,7 @@ io.on('connection', (socket)=>{
                                         room.numPlayersAlive = maxPlayers;
                                         room.agentOne = "";
                                         room.agentTwo = "";
+                                        io.to(room.name).emit('refreshPlayersArrayGame',room.players);
                                         io.to(room.name).emit('agentsWon2',room.players[0].name);
                                     }
     
@@ -142,6 +143,7 @@ io.on('connection', (socket)=>{
                                         room.numPlayersAlive = maxPlayers;
                                         room.agentOne = "";
                                         room.agentTwo = "";
+                                        io.to(room.name).emit('refreshPlayersArrayGame',room.players);
                                         io.to(room.name).emit('agentsLost2',room.players[0].name);  
                                     }
                                 }
@@ -520,7 +522,7 @@ io.on('connection', (socket)=>{
     socket.on('endGame',(rName)=>{
         rooms.forEach((room)=>{
             if(room.name == rName){
-                io.to(rName).emit('refreshPlayersArray',room.players);
+                io.to(rName).emit('refreshPlayersArrayGame',room.players);
             }   
         });
     });

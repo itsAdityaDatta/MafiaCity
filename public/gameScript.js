@@ -83,30 +83,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }        
     });
 
-    socket.on('refreshPlayersArray',(players)=>{                                
-        document.getElementById('members').innerHTML = "";                    
-        document.getElementById('memberScore').innerHTML = "";
-        players.forEach((player)=>{
-            var node = document.createElement("li");    
-            if(player.isAdmin == 1){
-                node.setAttribute("id","isAdmin");
-            }
-            var msg  = player.name;
-            var textnode = document.createTextNode(msg);
-            node.appendChild(textnode);
-            document.getElementById("members").appendChild(node);
-            
-            var node2 = document.createElement("li");  
-            if(player.isAdmin == 1){
-                node2.setAttribute("id","isAdmin");
-            }
-            var msg2  = player.score;
-            var textnode2 = document.createTextNode(msg2);
-            node2.appendChild(textnode2);
-            document.getElementById("memberScore").appendChild(node2);
-        });
-    });
-
     document.getElementById('leaveRoom').addEventListener('click',()=>{
         let ans = confirm('Are you sure you want to leave the current room?');
         if(ans == true){
@@ -146,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     socket.on('notEnoughPlayers',()=>{
         var node = document.createElement("li");
-        node.setAttribute("id",'errorMsg');
+        node.setAttribute("id",'erro          rMsg');
         let msg = 'ERROR: Insufficient number of players.';      
         var textnode = document.createTextNode(msg);
         node.appendChild(textnode);
