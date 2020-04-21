@@ -104,6 +104,8 @@ input:focus{
     font-family: 'Abel';
     border: none;
     padding-left: 5px;
+    padding-right: 100px;
+    outline: none;
 }
 
 #inp1:focus{
