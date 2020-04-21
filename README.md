@@ -38,6 +38,7 @@ ________________________________________________________________________________
 11. Took care of all the corner cases of all the above points. Fixed all of the known bugs.
 12. Add emoji picker to text-input.
 13. FIXED RATE LIMIT EXCEEDED error by hosting it from HEROKU CLI instead of from github
+14. Responsive Design (using pure CSS)
 
 ________________________________________________________________________________________________________________________________________
 
