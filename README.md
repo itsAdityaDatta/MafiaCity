@@ -60,5 +60,4 @@ ________________________________________________________________________________
 **CONTRIBUTORS**
 
 [itsAdityaDatta](https://github.com/itsAdityaDatta)
-
 [itsSejalTajane](https://github.com/itsSejalTajane)
