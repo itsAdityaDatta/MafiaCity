@@ -53,10 +53,12 @@ ________________________________________________________________________________
 
 
 
-![Gameplay pic 2](https://raw.githubusercontent.com/itsAdityaDatta/MafiaCity/Images/emoji.png)
+![Gameplay pic 2](https://raw.githubusercontent.com/itsAdityaDatta/MafiaCity/master/Images/emoji.png)
 
 ________________________________________________________________________________________________________________________________________
 
 **CONTRIBUTORS**
+
 [itsAdityaDatta](https://github.com/itsAdityaDatta)
+
 [itsSejalTajane](https://github.com/itsSejalTajane)
