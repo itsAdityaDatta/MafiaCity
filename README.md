@@ -29,12 +29,13 @@ ________________________________________________________________________________
 1. Room join/create system.
 2. Admin system (if one player disconnects/leaves a room, automatically the next person becomes the admin)
 3. Global chat system, room chat system
-4. Personal chat system in rooms (between agents)
-5. Single Tab System - A person cannot open the website in two tabs at once(implemented using sessionStorage and cookies)
-6. Dark and light themes - A user's preffered theme is stored in localStorage and is saved forever.
-7. Voting (/vote <id>) system.
-8. Scoring system.
-9. Unique room name, unique playerName in a room. 
+4. No two players with the same name can join a particular room.
+5. Personal chat system in rooms (between agents)
+6. Single Tab System - A person cannot open the website in two tabs at once(implemented using sessionStorage and cookies)
+7. Dark and light themes - A user's preffered theme is stored in localStorage and is saved forever.
+8. Voting (/vote <id>) system.
+9. Scoring system.
+10. Unique room name, unique playerName in a room. 
 11. Took care of all the corner cases of all the above points. Fixed all of the known bugs.
 12. Add emoji picker to text-input.
 13. FIXED RATE LIMIT EXCEEDED error by hosting it from HEROKU CLI instead of from github
